@@ -1,0 +1,26 @@
+<section>
+  <div class="page-header">
+    <h1 ng-bind="vm.buy.name"></h1>
+  </div>
+  <div class="pull-right"
+       ng-show="vm.buy.isCurrentUserOwner">
+    <a class="btn btn-primary"
+       ui-sref="buys.edit({ buyId: vm.buy._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="vm.buy.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.buy.user"
+            ng-bind="vm.buy.user.displayName"></span>
+      <span ng-if="!vm.buy.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.buy.content"></p>
+</section>

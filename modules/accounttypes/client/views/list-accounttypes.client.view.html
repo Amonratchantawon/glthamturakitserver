@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Accounttypes</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="accounttype in vm.accounttypes"
+       ui-sref="accounttypes.view({ accounttypeId: accounttype._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="accounttype.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="accounttype.user" ng-bind="accounttype.user.displayName"></span>
+        <span ng-if="!accounttype.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="accounttype.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.accounttypes.$resolved && !vm.accounttypes.length">
+    No Accounttypes yet, why don't you <a ui-sref="accounttypes.create">create one</a>?
+  </div>
+</section>

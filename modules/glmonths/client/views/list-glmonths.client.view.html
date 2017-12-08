@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Glmonths</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="glmonth in vm.glmonths"
+       ui-sref="glmonths.view({ glmonthId: glmonth._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="glmonth.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="glmonth.user" ng-bind="glmonth.user.displayName"></span>
+        <span ng-if="!glmonth.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="glmonth.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.glmonths.$resolved && !vm.glmonths.length">
+    No Glmonths yet, why don't you <a ui-sref="glmonths.create">create one</a>?
+  </div>
+</section>

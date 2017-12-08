@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Accountcharts</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="accountchart in vm.accountcharts"
+       ui-sref="accountcharts.view({ accountchartId: accountchart._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="accountchart.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="accountchart.user" ng-bind="accountchart.user.displayName"></span>
+        <span ng-if="!accountchart.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="accountchart.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.accountcharts.$resolved && !vm.accountcharts.length">
+    No Accountcharts yet, why don't you <a ui-sref="accountcharts.create">create one</a>?
+  </div>
+</section>

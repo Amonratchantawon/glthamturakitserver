@@ -1,0 +1,22 @@
+<section>
+  <div class="page-header">
+    <h1>Glyears</h1>
+  </div>
+  <div class="list-group">
+    <a ng-repeat="glyear in vm.glyears"
+       ui-sref="glyears.view({ glyearId: glyear._id })"
+       class="list-group-item">
+      <small class="list-group-item-text">
+        Posted on
+        <span ng-bind="glyear.created | date:'mediumDate'"></span>
+        by
+        <span ng-if="glyear.user" ng-bind="glyear.user.displayName"></span>
+        <span ng-if="!glyear.user">Deleted User</span>
+      </small>
+      <h4 class="list-group-item-heading" ng-bind="glyear.name"></h4>
+    </a>
+  </div>
+  <div class="alert alert-warning text-center" ng-if="vm.glyears.$resolved && !vm.glyears.length">
+    No Glyears yet, why don't you <a ui-sref="glyears.create">create one</a>?
+  </div>
+</section>

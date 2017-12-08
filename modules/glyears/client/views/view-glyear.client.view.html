@@ -1,0 +1,26 @@
+<section>
+  <div class="page-header">
+    <h1 ng-bind="vm.glyear.name"></h1>
+  </div>
+  <div class="pull-right"
+       ng-show="vm.glyear.isCurrentUserOwner">
+    <a class="btn btn-primary"
+       ui-sref="glyears.edit({ glyearId: vm.glyear._id })">
+      <i class="glyphicon glyphicon-edit"></i>
+    </a>
+    <a class="btn btn-primary" ng-click="vm.remove()">
+      <i class="glyphicon glyphicon-trash"></i>
+    </a>
+  </div>
+  <small>
+    <em class="text-muted">
+      Posted on
+      <span ng-bind="vm.glyear.created | date:'mediumDate'"></span>
+      by
+      <span ng-if="vm.glyear.user"
+            ng-bind="vm.glyear.user.displayName"></span>
+      <span ng-if="!vm.glyear.user">Deleted User</span>
+    </em>
+  </small>
+  <p class="lead" ng-bind="vm.glyear.content"></p>
+</section>
