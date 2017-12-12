@@ -29,7 +29,7 @@ module.exports = function (app) {
         .get(accounts.listSearch);
 
     app.route('/api/glreport/:type/:date').all(accountsPolicy.isAllowed)
-        .get(accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.returnGlreport);
+        .get(accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.returnGlreport);
     // accounts.getGlByCondition
     // Finish by binding the Account middleware
     app.param('accountId', accounts.accountByID);

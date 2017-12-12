@@ -8,7 +8,8 @@ var should = require('should'),
     Account = mongoose.model('Account'),
     Accountchart = mongoose.model('Accountchart'),
     express = require(path.resolve('./config/lib/express')),
-    Accounttype = mongoose.model('Accounttype');
+    Accounttype = mongoose.model('Accounttype'),
+    Company = mongoose.model('Company');
 
 /**
  * Globals
@@ -30,7 +31,8 @@ var app,
     account,
     account2,
     account3,
-    accounttype;
+    accounttype,
+    company;
 
 /**
  * Account routes tests
@@ -51,6 +53,16 @@ describe('GL Report tests', function () {
             username: 'username',
             password: 'M3@n.jsI$Aw3$0m3'
         };
+
+        company = new Company({
+            name: 'Company Ass center',
+            address: '6/636 หมู่ 5',
+            subDistrict: 'xxx',
+            district: 'xxx',
+            province: 'xxxx',
+            postCode: '10220',
+            phone: '0935325XXX'
+        });
 
         // Create a new user
         user = new User({
@@ -203,23 +215,26 @@ describe('GL Report tests', function () {
 
         // Save a user to the test db and create new Account
         user.save(function () {
-            accounttype.save(function () {
-                accountchart1.save();
-                accountchart2.save();
-                accountchart3.save();
-                accountchart4.save();
-                accountchart5.save();
-                accountchart6.save();
-                accountchart7.save();
-                accountchart8.save();
-                accountchart9.save(function () {
-                    account.save();
-                    account2.save();
-                    account3.save(function () {
-                        done();
+            company.save(function () {
+                accounttype.save(function () {
+                    accountchart1.save();
+                    accountchart2.save();
+                    accountchart3.save();
+                    accountchart4.save();
+                    accountchart5.save();
+                    accountchart6.save();
+                    accountchart7.save();
+                    accountchart8.save();
+                    accountchart9.save(function () {
+                        account.save();
+                        account2.save();
+                        account3.save(function () {
+                            done();
+                        });
                     });
                 });
             });
+
         });
     });
 
@@ -280,6 +295,9 @@ describe('GL Report tests', function () {
                 (glreports.daily.transaction.length).should.match(1);
                 (glreports.daily.transaction[0].docno).should.match(account.docno);
 
+                (glreports.daily.company).should.match(company.name);
+
+
                 // Call the assertion callback
                 done();
             });
@@ -304,6 +322,8 @@ describe('GL Report tests', function () {
                 (glreports.daily.transaction.length).should.match(2);
                 (glreports.daily.transaction[0].docno).should.match(account.docno);
                 (glreports.daily.transaction[1].docno).should.match(account2.docno);
+
+                (glreports.daily.company).should.match(company.name);
                 // Call the assertion callback
                 done();
             });
@@ -329,7 +349,9 @@ describe('GL Report tests', function () {
                 (glreports.acceach.length).should.match(3);
                 (glreports.acceach[0].accountno).should.match('101101');
                 (glreports.acceach[0].transaction[0].list[0].accountno).should.match('605003');
-                (glreports.acceach[0].transaction[0].list[1].accountno).should.match('101502');
+                (glreports.acceach[0].company).should.match(company.name);
+
+                (glreports.acceach[0].company).should.match(company.name);
                 // Call the assertion callback
                 done();
             });
@@ -360,6 +382,8 @@ describe('GL Report tests', function () {
                 (glreports.acceach[0].carryforward.accountname).should.match('ยอดยกไป');
                 (glreports.acceach[0].carryforward.debit).should.match(0);
                 (glreports.acceach[0].carryforward.credit).should.match(0);
+
+                (glreports.acceach[0].company).should.match(company.name);
                 // Call the assertion callback
                 done();
             });
@@ -390,38 +414,42 @@ describe('GL Report tests', function () {
                 (glreports.gain.transaction[5].accounttype).should.match('รายได้อื่น');
                 (glreports.gain.transaction[6].accounttype).should.match('ค่าใช้จ่ายอื่น');
                 (glreports.gain.transaction[7].accounttype).should.match('กำไรสุทธิ (ขาดทุนสุทธิ)');
+
+                (glreports.gain.company).should.match(company.name);
                 // Call the assertion callback
                 done();
             });
     });
 
     it('GL gen report balance', function (done) {
-        
-                var date = '2016-01-05';
-                var type = 'month';
-                // Get a list of Accountcharts
-                agent.get('/api/glreport/' + type + '/' + date)
-                    .end(function (glreportssGetErr, glreportssGetRes) {
-                        // Handle Accountcharts save error
-                        if (glreportssGetErr) {
-                            return done(glreportssGetErr);
-                        }
-        
-                        // Get Accountcharts list
-                        var glreports = glreportssGetRes.body;
-        
-                        (glreports.type).should.match("month");
-                        (glreports.balance.asset.transaction[0].accounttype).should.match('สินทรัพย์หมุนเวียน');
-                        (glreports.balance.asset.transaction[1].accounttype).should.match('ที่ดิน อาคารและอุปกรณ์');
-                        (glreports.balance.asset.transaction[2].accounttype).should.match('สินทรัพย์อื่น');
-                        (glreports.balance.asset.transaction[3].accounttype).should.match('รวมสินทรัพย์');
-                        (glreports.balance.debt.transaction[0].accounttype).should.match('หนี้สินหมุนเวียน');
-                        (glreports.balance.debt.transaction[1].accounttype).should.match('ส่วนของผู้ถือหุ้น');
-                        (glreports.balance.debt.transaction[2].accounttype).should.match('รวมหนี้สินและส่วนของผู้ถือหุ้น');
-                        // Call the assertion callback
-                        done();
-                    });
+
+        var date = '2016-01-05';
+        var type = 'month';
+        // Get a list of Accountcharts
+        agent.get('/api/glreport/' + type + '/' + date)
+            .end(function (glreportssGetErr, glreportssGetRes) {
+                // Handle Accountcharts save error
+                if (glreportssGetErr) {
+                    return done(glreportssGetErr);
+                }
+
+                // Get Accountcharts list
+                var glreports = glreportssGetRes.body;
+
+                (glreports.type).should.match("month");
+                (glreports.balance.asset.transaction[0].accounttype).should.match('สินทรัพย์หมุนเวียน');
+                (glreports.balance.asset.transaction[1].accounttype).should.match('ที่ดิน อาคารและอุปกรณ์');
+                (glreports.balance.asset.transaction[2].accounttype).should.match('สินทรัพย์อื่น');
+                (glreports.balance.asset.transaction[3].accounttype).should.match('รวมสินทรัพย์');
+                (glreports.balance.debt.transaction[0].accounttype).should.match('หนี้สินหมุนเวียน');
+                (glreports.balance.debt.transaction[1].accounttype).should.match('ส่วนของผู้ถือหุ้น');
+                (glreports.balance.debt.transaction[2].accounttype).should.match('รวมหนี้สินและส่วนของผู้ถือหุ้น');
+
+                (glreports.balance.company).should.match(company.name);   
+                // Call the assertion callback
+                done();
             });
+    });
 
 
     afterEach(function (done) {

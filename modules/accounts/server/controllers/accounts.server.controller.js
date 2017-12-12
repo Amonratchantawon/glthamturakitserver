@@ -9,8 +9,10 @@ var path = require('path'),
     Accountchart = mongoose.model('Accountchart'),
     Glmonth = mongoose.model('Glmonth'),
     Glyear = mongoose.model('Glyear'),
+    Company = mongoose.model('Company'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     _ = require('lodash');
+
 
 /**
  * Create a Account
@@ -501,6 +503,20 @@ exports.getGlByCondition = function (req, res, next) {
     }
 };
 
+exports.getCompany = function (req, res, next) {
+    Company.find({}, "name").exec(function (err, company) {
+        if (err) {
+            return next(err);
+        } else if (!company) {
+            return res.status(404).send({
+                message: 'No Account with that identifier has been found'
+            });
+        }
+        req.company = company[0];
+        next();
+    });
+};
+
 exports.getAccounts = function (req, res, next) {
 
     Account.find({
@@ -525,9 +541,10 @@ exports.getAccounts = function (req, res, next) {
 
 exports.generateGlDaily = function (req, res, next) {
 
+
     var daily = {
         date: new Date(),
-        company: "Cyber Advance System annd Network Co.,Ltd",
+        company: req.company ? req.company.name : "",
         startdate: req.firstDay,
         enddate: req.lastDay,
         title: "สมุดรายวันทั่วไป",
@@ -852,7 +869,7 @@ exports.generateAcceach = function (req, res, next) {
 
         var acceachGrop = {
             date: new Date(),
-            company: "Cyber Advance System annd Network Co.,Ltd",
+            company: req.company ? req.company.name : "",
             startdate: req.firstDay,
             enddate: req.lastDay,
             title: "บัญชีแยกประเภท" + accountchartI.name,
@@ -1054,7 +1071,7 @@ exports.generateGain = function (req, res, next) {
 
     var gain = {
         date: new Date(),
-        company: "Cyber Advance System annd Network Co.,Ltd",
+        company: req.company ? req.company.name : "",
         startdate: req.firstDay,
         enddate: req.lastDay,
         title: "งบกำไรขาดทุน",
@@ -1118,7 +1135,7 @@ exports.generateBalance = function (req, res, next) {
 
     var balance = {
         date: new Date(),
-        company: "Cyber Advance System annd Network Co.,Ltd",
+        company: req.company ? req.company.name : "",
         startdate: req.firstDay,
         enddate: req.lastDay,
         title: "งบแสดงฐานะการเงิน",
