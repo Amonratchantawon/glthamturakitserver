@@ -1199,8 +1199,9 @@ exports.balancetest = function (req, res, next) {
         var currCr = 0;
         acc.transaction.forEach(function(accofdate){
             accofdate.list.forEach(function(trn){
-                currDr += trn.debit;
-                currCr += trn.credit;
+                //อ่านจาก แยกประเภท เลยต้องกลับคู่บัญชี
+                currCr += trn.debit;
+                currDr += trn.credit;
             });
         });
         var balancetest = {
