@@ -1199,9 +1199,8 @@ exports.balancetest = function (req, res, next) {
         var currCr = 0;
         acc.transaction.forEach(function(accofdate){
             accofdate.list.forEach(function(trn){
-                //อ่านจาก แยกประเภท เลยต้องกลับคู่บัญชี
-                currCr += trn.debit;
-                currDr += trn.credit;
+                currDr += trn.debit;
+                currCr += trn.credit;
             });
         });
         var balancetest = {
@@ -1211,8 +1210,8 @@ exports.balancetest = function (req, res, next) {
             bfcredit: acc.bringforward.credit,
             currdebit: currDr,
             currcredit: currCr,
-            afdebit: acc.carryforward.debit,
-            afcredit: acc.carryforward.credit
+            afdebit: acc.carryforward.credit,
+            afcredit: acc.carryforward.debit
         };
         balancetests.push(balancetest);
     });
