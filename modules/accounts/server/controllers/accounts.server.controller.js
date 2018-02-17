@@ -1193,7 +1193,22 @@ exports.generateBalance = function (req, res, next) {
 };
 
 exports.balancetest = function (req, res, next) {
-    var balancetests = [];
+    var balancetests = {
+        date: Date.now(),
+        company: "",
+        startdate: req.firstDay,
+        enddate: req.lastDay,
+        title: "งบทดลอง",
+        transaction: [],
+        summary: {
+            bfdebit: 0,
+            bfcredit: 0,
+            currdebit: 0,
+            currcredit: 0,
+            afdebit: 0,
+            afcredit: 0
+        }
+    };
     req.acceach.forEach(function (acc) {
         var currDr = 0;
         var currCr = 0;
@@ -1203,6 +1218,7 @@ exports.balancetest = function (req, res, next) {
                 currCr += trn.credit;
             });
         });
+       
         var balancetest = {
             accountno: acc.account.accountno,
             name: acc.account.name,
@@ -1213,7 +1229,13 @@ exports.balancetest = function (req, res, next) {
             afdebit: acc.carryforward.credit,
             afcredit: acc.carryforward.debit
         };
-        balancetests.push(balancetest);
+        balancetests.summary.bfdebit += acc.bringforward.debit;
+        balancetests.summary.bfcredit += acc.bringforward.credit;
+        balancetests.summary.currdebit += currDr;
+        balancetests.summary.currcredit += currCr;
+        balancetests.summary.afdebit += acc.carryforward.credit;
+        balancetests.summary.afcredit += acc.carryforward.debit;
+        balancetests.transaction.push(balancetest);
     });
     req.balancetests = balancetests;
     next();
