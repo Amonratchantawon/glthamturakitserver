@@ -1195,13 +1195,21 @@ exports.generateBalance = function (req, res, next) {
 exports.balancetest = function (req, res, next) {
     var balancetests = [];
     req.acceach.forEach(function (acc) {
+        var currDr = 0;
+        var currCr = 0;
+        acc.transaction.forEach(function(accofdate){
+            accofdate.list.forEach(function(trn){
+                currDr += trn.debit;
+                currCr += trn.credit;
+            });
+        });
         var balancetest = {
             accountno: acc.account.accountno,
             name: acc.account.name,
             bfdebit: acc.bringforward.debit,
             bfcredit: acc.bringforward.credit,
-            currdebit: 0,
-            currcredit: 0,
+            currdebit: currDr,
+            currcredit: currCr,
             afdebit: acc.carryforward.debit,
             afcredit: acc.carryforward.credit
         };
