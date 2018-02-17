@@ -468,6 +468,8 @@ describe('GL Report tests', function () {
                 var glreports = glreportssGetRes.body;
 
                 (glreports.type).should.match("custom");
+                (glreports.acceach).should.be.instanceof(Array).and.have.lengthOf(3);
+                (glreports.balancetests).should.be.instanceof(Array).and.have.lengthOf(3);
                 // Call the assertion callback
                 done();
             });

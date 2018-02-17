@@ -1192,6 +1192,25 @@ exports.generateBalance = function (req, res, next) {
     next();
 };
 
+exports.balancetest = function (req, res, next) {
+    var balancetests = [];
+    req.acceach.forEach(function (acc) {
+        var balancetest = {
+            accountno: acc.account.accountno,
+            name: acc.account.name,
+            bfdebit: acc.bringforward.debit,
+            bfcredit: acc.bringforward.credit,
+            currdebit: 0,
+            currcredit: 0,
+            afdebit: acc.carryforward.debit,
+            afcredit: acc.carryforward.credit
+        };
+        balancetests.push(balancetest);
+    });
+    req.balancetests = balancetests;
+    next();
+};
+
 exports.returnGlreport = function (req, res) {
 
     var glreport = {
@@ -1203,7 +1222,8 @@ exports.returnGlreport = function (req, res) {
         daily: req.daily,
         acceach: req.acceach,
         gain: req.gain,
-        balance: req.balance
+        balance: req.balance,
+        balancetests: req.balancetests
     };
     res.jsonp(glreport);
 };
