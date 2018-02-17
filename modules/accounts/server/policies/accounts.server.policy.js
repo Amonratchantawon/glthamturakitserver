@@ -21,6 +21,9 @@ exports.invokeRolesPolicies = function () {
             resources: '/api/glreport/:type/:date',
             permissions: '*'
         }, {
+            resources: '/api/glreport/:type/:date/:enddate',
+            permissions: '*'
+        }, {
             resources: '/api/accounts/:accountId',
             permissions: '*'
         }, {
@@ -37,6 +40,9 @@ exports.invokeRolesPolicies = function () {
             permissions: ['get', 'post']
         }, {
             resources: '/api/glreport/:type/:date',
+            permissions: '*'
+        },{
+            resources: '/api/glreport/:type/:date/:enddate',
             permissions: '*'
         }, {
             resources: '/api/accounts/:accountId',
@@ -55,6 +61,9 @@ exports.invokeRolesPolicies = function () {
             permissions: ['get']
         }, {
             resources: '/api/glreport/:type/:date',
+            permissions: '*'
+        }, {
+            resources: '/api/glreport/:type/:date/:enddate',
             permissions: '*'
         }, {
             resources: '/api/accounts/:accountId',

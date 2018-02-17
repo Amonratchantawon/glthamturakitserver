@@ -451,6 +451,28 @@ describe('GL Report tests', function () {
             });
     });
 
+    it('GL test custom date', function (done) {
+
+        var date = '2016-01-01';
+        var enddate = '2016-01-31';
+        var type = 'custom';
+        // Get a list of Accountcharts
+        agent.get('/api/glreport/' + type + '/' + date + '/' + enddate)
+            .end(function (glreportssGetErr, glreportssGetRes) {
+                // Handle Accountcharts save error
+                if (glreportssGetErr) {
+                    return done(glreportssGetErr);
+                }
+
+                // Get Accountcharts list
+                var glreports = glreportssGetRes.body;
+
+                (glreports.type).should.match("custom");
+                // Call the assertion callback
+                done();
+            });
+    });
+
 
     afterEach(function (done) {
         User.remove().exec(function () {

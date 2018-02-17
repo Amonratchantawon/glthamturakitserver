@@ -720,7 +720,7 @@ describe('User CRUD tests', function() {
                             }
 
                             // Call the assertion callback
-                            userInfoRes.body.message.should.equal('11000 duplicate key error collection: mean-test.users index: username already exists');
+                            userInfoRes.body.message.should.equal('Username already exists');
 
                             return done();
                         });
@@ -772,7 +772,7 @@ describe('User CRUD tests', function() {
                             }
 
                             // Call the assertion callback
-                            userInfoRes.body.message.should.equal('11000 duplicate key error collection: mean-test.users index: email already exists');
+                            userInfoRes.body.message.should.equal('Email already exists');
 
                             return done();
                         });

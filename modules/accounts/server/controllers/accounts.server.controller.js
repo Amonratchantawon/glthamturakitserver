@@ -441,10 +441,19 @@ exports.glType = function (req, res, next, type) {
     next();
 };
 
+
 exports.getGlDate = function (req, res, next, date) {
     req.date = date;
+    next();
+};
 
-    var paramDate = new Date(date);
+exports.getGlEndDate = function (req, res, next, enddate) {
+    req.enddate = enddate;
+    next();
+};
+
+exports.setReportCondition = function (req, res, next) {
+    var paramDate = new Date(req.date);
     var firstDay;
     var lastDay;
     // console.log("req.type : ", req.type);
@@ -454,6 +463,10 @@ exports.getGlDate = function (req, res, next, date) {
     } else if (req.type === 'year') {
         firstDay = new Date(paramDate.getFullYear(), 0, 1);
         lastDay = new Date(paramDate.getFullYear(), 11, 31);
+    } else if (req.type === 'custom') {
+        firstDay = new Date(paramDate.getFullYear(), paramDate.getMonth(), paramDate.getDate());
+        var paramEndDate = new Date(req.enddate);
+        lastDay = new Date(paramEndDate.getFullYear(), paramEndDate.getMonth(), paramEndDate.getDate());
     } else {
         return res.status(404).send({
             message: 'Type not macth. [m,y]'

@@ -29,11 +29,15 @@ module.exports = function (app) {
         .get(accounts.listSearch);
 
     app.route('/api/glreport/:type/:date').all(accountsPolicy.isAllowed)
-        .get(accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.returnGlreport);
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.returnGlreport);
+    
+        app.route('/api/glreport/:type/:date/:enddate').all(accountsPolicy.isAllowed)
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.returnGlreport, accounts.returnGlreport);
     // accounts.getGlByCondition
     // Finish by binding the Account middleware
     app.param('accountId', accounts.accountByID);
     app.param('docno', accounts.accountByDocno);
     app.param('type', accounts.glType);
     app.param('date', accounts.getGlDate);
+    app.param('enddate', accounts.getGlEndDate);
 };
