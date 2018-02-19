@@ -1315,6 +1315,31 @@ exports.exportExcel = function (req, res) {
         });
     }
 
+    if (req.balancetests) {
+        var ws = wb.addWorksheet(req.balancetests.title);
+        ws.cell(1, 1).string('เลขบัญชี');
+        ws.cell(1, 2).string('ชื่อบัญชี');
+        ws.cell(1, 3).string('ยกมา(เดบิต)');
+        ws.cell(1, 4).string('ยกมา(เครดิต)');
+        ws.cell(1, 5).string('ในงวด(เดบิต)');
+        ws.cell(1, 6).string('ในงวด(เครดิต)');
+        ws.cell(1, 7).string('ยกไป(เดบิต)');
+        ws.cell(1, 8).string('ยกไป(เครดิต)');
+
+        var i = 2;
+        req.balancetests.transaction.forEach(function (tran) {
+            ws.cell(i, 1).string(tran.accountno);
+            ws.cell(i, 2).string(tran.name);
+            ws.cell(i, 3).number(tran.bfdebit).style(numStyle);
+            ws.cell(i, 4).number(tran.bfcredit).style(numStyle);
+            ws.cell(i, 5).number(tran.currdebit).style(numStyle);
+            ws.cell(i, 6).number(tran.currcredit).style(numStyle);
+            ws.cell(i, 7).number(tran.afdebit).style(numStyle);
+            ws.cell(i, 8).number(tran.afcredit).style(numStyle);
+            i++;
+        });
+    }
+
 
 
     wb.write('ExcelFile.xlsx', res);
