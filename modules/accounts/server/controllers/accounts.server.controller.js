@@ -10,6 +10,7 @@ var path = require('path'),
     Glmonth = mongoose.model('Glmonth'),
     Glyear = mongoose.model('Glyear'),
     Company = mongoose.model('Company'),
+    xl = require('excel4node'),
     errorHandler = require(path.resolve('./modules/core/server/controllers/errors.server.controller')),
     _ = require('lodash');
 
@@ -1212,13 +1213,13 @@ exports.balancetest = function (req, res, next) {
     req.acceach.forEach(function (acc) {
         var currDr = 0;
         var currCr = 0;
-        acc.transaction.forEach(function(accofdate){
-            accofdate.list.forEach(function(trn){
+        acc.transaction.forEach(function (accofdate) {
+            accofdate.list.forEach(function (trn) {
                 currDr += trn.debit;
                 currCr += trn.credit;
             });
         });
-       
+
         var balancetest = {
             accountno: acc.account.accountno,
             name: acc.account.name,
@@ -1256,6 +1257,20 @@ exports.returnGlreport = function (req, res) {
         balancetests: req.balancetests
     };
     res.jsonp(glreport);
+};
+
+exports.exportExcel = function (req, res) {
+    var wb = new xl.Workbook();
+    var ws = wb.addWorksheet('Sheet 1');
+    ws.cell(1, 1).number(100);
+    // หมายถึงใส่ค่าตัวเลข 100 ลงไปที่ cell A1
+    ws.cell(1, 2).string('some text');
+    //หมายถึงใส่ค่าตัวอักษร some text ลงใน cell B1
+    ws.cell(1, 3).formula('A1+A2');
+    //หมายถึงใส่สูตร A1+A2 ใน cell C1
+    ws.cell(1, 4).bool(true);
+    //หมายถึงใส่ค่า boolean true ใน cell D1
+    wb.write('ExcelFile.xlsx', res);
 };
 
 function generateGlByType(acceach, accountChart, type, name) {

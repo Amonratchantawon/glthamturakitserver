@@ -475,6 +475,20 @@ describe('GL Report tests', function () {
             });
     });
 
+    it('GL Excel report', function(done){
+        agent.get('/api/glreport/excel')
+        .expect(200)
+        .end(function(getErr, getRes){
+            if(getErr){
+                return done(getErr);
+            }
+
+            var res = getRes.body;
+            res.should.be.instanceof(Object);
+            done();            
+        });
+    });
+
 
     afterEach(function (done) {
         User.remove().exec(function () {
