@@ -1261,7 +1261,7 @@ exports.returnGlreport = function (req, res) {
 
 exports.exportExcel = function (req, res) {
     var wb = new xl.Workbook();
-    var ws = wb.addWorksheet(req.daily.title);
+    //var ws = wb.addWorksheet(req.daily.title);
     var numStyle = wb.createStyle({
         // font: {
         //     color: '#FF0800',
@@ -1286,7 +1286,37 @@ exports.exportExcel = function (req, res) {
     // ws.cell(1,6).string('my big string').style({font:{ size : 25 }});
     // ws.cell(1,7).number(45900).style(numStyle).style({font:{ size : 25 }});
 
-    
+
+    if (req.daily) {
+        var ws = wb.addWorksheet(req.daily.title);
+        ws.cell(1, 1).string('วันที่');
+        ws.cell(1, 2).string('เลขเอกสาร');
+        ws.cell(1, 3).string('รายการ');
+        ws.cell(1, 4).string('รหัสบัญชี');
+        ws.cell(1, 5).string('เช็ค/ใบสำคัญ');
+        ws.cell(1, 6).string('ลงวันที่');
+        ws.cell(1, 7).string('เดบิต');
+        ws.cell(1, 8).string('เครดิด');
+
+        // var i = 2;
+        // req.daily.transaction.forEach(function (tran) {
+        //     ws.cell(i, 1).string(tran.docdate);
+        //     ws.cell(i, 2).string(tran.docno);
+        //     tran.list.forEach(function (detail) {
+        //         ws.cell(i, 3).string(detail.accountname);
+        //         ws.cell(i, 4).string(detail.accountno);
+        //         ws.cell(i, 5).string('');
+        //         ws.cell(i, 6).string('');
+        //         ws.cell(i, 7).number(detail.debit).style(numStyle);
+        //         ws.cell(i, 8).number(detail.credit).style(numStyle);
+        //         i++;
+        //     });
+        //     i++;
+        // });
+    }
+
+
+
     wb.write('ExcelFile.xlsx', res);
 };
 
