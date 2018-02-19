@@ -1308,7 +1308,7 @@ exports.exportExcel = function (req, res) {
     }
 
 
-    wb.write('ExcelFile.xlsx', res);
+    wb.write('งบการเงิน.xlsx', res);
 };
 
 function generateGlByType(acceach, accountChart, type, name) {
