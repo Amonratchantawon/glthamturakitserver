@@ -1307,8 +1307,8 @@ exports.exportExcel = function (req, res) {
                 ws.cell(i, 4).string(detail.accountno);
                 ws.cell(i, 5).string('');
                 ws.cell(i, 6).string('');
-                ws.cell(i, 7).number(detail.debit).style(numStyle);
-                ws.cell(i, 8).number(detail.credit).style(numStyle);
+                ws.cell(i, 7).number(detail.debit || 0).style(numStyle);
+                ws.cell(i, 8).number(detail.credit || 0).style(numStyle);
                 i++;
             });
             i++;
