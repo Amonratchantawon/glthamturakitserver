@@ -1267,7 +1267,7 @@ exports.exportExcel = function (req, res) {
         //     color: '#FF0800',
         //     size: 12
         // },
-        numberFormat: '$#,##0.00; ($#,##0.00); -'
+        numberFormat: '#,##0.00; (#,##0.00); -'
     });
 
 
