@@ -1298,21 +1298,21 @@ exports.exportExcel = function (req, res) {
         ws.cell(1, 7).string('เดบิต');
         ws.cell(1, 8).string('เครดิด');
 
-        // var i = 2;
-        // req.daily.transaction.forEach(function (tran) {
-        //     ws.cell(i, 1).string(tran.docdate);
-        //     ws.cell(i, 2).string(tran.docno);
-        //     tran.list.forEach(function (detail) {
-        //         ws.cell(i, 3).string(detail.accountname);
-        //         ws.cell(i, 4).string(detail.accountno);
-        //         ws.cell(i, 5).string('');
-        //         ws.cell(i, 6).string('');
-        //         ws.cell(i, 7).number(detail.debit).style(numStyle);
-        //         ws.cell(i, 8).number(detail.credit).style(numStyle);
-        //         i++;
-        //     });
-        //     i++;
-        // });
+        var i = 2;
+        req.daily.transaction.forEach(function (tran) {
+            //ws.cell(i, 1).string(tran.docdate);
+            ws.cell(i, 2).string(tran.docno);
+            // tran.list.forEach(function (detail) {
+            //     ws.cell(i, 3).string(detail.accountname);
+            //     ws.cell(i, 4).string(detail.accountno);
+            //     ws.cell(i, 5).string('');
+            //     ws.cell(i, 6).string('');
+            //     ws.cell(i, 7).number(detail.debit).style(numStyle);
+            //     ws.cell(i, 8).number(detail.credit).style(numStyle);
+            //     i++;
+            // });
+            i++;
+        });
     }
 
 
