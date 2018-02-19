@@ -476,7 +476,11 @@ describe('GL Report tests', function () {
     });
 
     it('GL Excel report', function(done){
-        agent.get('/api/glreport/excel')
+        var date = '2016-01-01';
+        var enddate = '2016-01-31';
+        var type = 'custom';
+
+        agent.get('/api/glreport/excel/' + type + '/' + date + '/' + enddate)
         .expect(200)
         .end(function(getErr, getRes){
             if(getErr){
