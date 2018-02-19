@@ -1300,7 +1300,7 @@ exports.exportExcel = function (req, res) {
 
         var i = 2;
         req.daily.transaction.forEach(function (tran) {
-            ws.cell(i, 1).string(tran.docdate.toString());
+            ws.cell(i, 1).string(tran.docdate.toISOString().slice(0,10).replace(/-/g,""));
             ws.cell(i, 2).string(tran.docno);
             tran.list.forEach(function (detail) {
                 ws.cell(i, 3).string(detail.accountname);
