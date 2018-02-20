@@ -580,8 +580,8 @@ exports.generateGlDaily = function (req, res, next) {
             var debit = element.debits[d];
 
             transaction.list.push({
-                accountname: debit.account.name,
-                accountno: debit.account.accountno,
+                accountname: debit.account ? debit.account.name : 'undefined',
+                accountno: debit.account ? debit.account.accountno : 'undefined',
                 description: debit.description,
                 document: "",
                 timestamp: "",
@@ -595,8 +595,8 @@ exports.generateGlDaily = function (req, res, next) {
             var credits = element.credits[c];
 
             transaction.list.push({
-                accountname: credits.account.name,
-                accountno: credits.account.accountno,
+                accountname: credits.account ? credits.account.name : 'undefined',
+                accountno: credits.account ? credits.account.accountno : 'undefined',
                 description: credits.description,
                 document: "",
                 timestamp: "",
@@ -673,8 +673,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 var debit = element.debits[d];
 
                 transaction.list.push({
-                    accountname: debit.account.name,
-                    accountno: debit.account.accountno,
+                    accountname: debit.account ? debit.account.name : 'undefined',
+                    accountno: debit.account ? debit.account.accountno : 'undefined',
                     description: debit.description,
                     document: "",
                     timestamp: "",
@@ -1300,7 +1300,7 @@ exports.exportExcel = function (req, res) {
 
         var i = 2;
         req.daily.transaction.forEach(function (tran) {
-            ws.cell(i, 1).string(tran.docdate.toISOString().slice(0,10).replace(/-/g,""));
+            ws.cell(i, 1).string(tran.docdate.toISOString().slice(0, 10).replace(/-/g, ""));
             ws.cell(i, 2).string(tran.docno);
             tran.list.forEach(function (detail) {
                 ws.cell(i, 3).string(detail.accountname);
