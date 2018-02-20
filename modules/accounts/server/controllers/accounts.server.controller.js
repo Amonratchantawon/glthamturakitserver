@@ -688,8 +688,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 var credits = element.credits[c];
 
                 transaction.list.push({
-                    accountname: credits.account.name,
-                    accountno: credits.account.accountno,
+                    accountname: credits.account ? credits.account.name : 'undefined',
+                    accountno: credits.account ? credits.account.accountno : 'undefined',
                     description: credits.description,
                     document: "",
                     timestamp: "",
