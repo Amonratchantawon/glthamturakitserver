@@ -1229,8 +1229,8 @@ exports.balancetest = function (req, res, next) {
             bfcredit: acc.bringforward.credit,
             currdebit: currDr,
             currcredit: currCr,
-            afdebit: acc.carryforward.credit,
-            afcredit: acc.carryforward.debit
+            afdebit: acc.carryforward.debit,
+            afcredit: acc.carryforward.credit
         };
         balancetests.summary.bfdebit += acc.bringforward.debit;
         balancetests.summary.bfcredit += acc.bringforward.credit;
