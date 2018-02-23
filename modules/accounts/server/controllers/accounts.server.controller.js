@@ -580,8 +580,8 @@ exports.generateGlDaily = function (req, res, next) {
             var debit = element.debits[d];
 
             transaction.list.push({
-                accountname: debit.account.name,
-                accountno: debit.account.accountno,
+                accountname: debit.account ? debit.account.name : 'undefined',
+                accountno: debit.account ? debit.account.accountno : 'undefined',
                 description: debit.description,
                 document: "",
                 timestamp: "",
@@ -595,8 +595,8 @@ exports.generateGlDaily = function (req, res, next) {
             var credits = element.credits[c];
 
             transaction.list.push({
-                accountname: credits.account.name,
-                accountno: credits.account.accountno,
+                accountname: credits.account ? credits.account.name : 'undefined',
+                accountno: credits.account ? credits.account.accountno : 'undefined',
                 description: credits.description,
                 document: "",
                 timestamp: "",
@@ -673,8 +673,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 var debit = element.debits[d];
 
                 transaction.list.push({
-                    accountname: debit.account.name,
-                    accountno: debit.account.accountno,
+                    accountname: debit.account ? debit.account.name : 'undefined',
+                    accountno: debit.account ? debit.account.accountno : 'undefined',
                     description: debit.description,
                     document: "",
                     timestamp: "",
@@ -688,8 +688,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 var credits = element.credits[c];
 
                 transaction.list.push({
-                    accountname: credits.account.name,
-                    accountno: credits.account.accountno,
+                    accountname: credits.account ? credits.account.name : 'undefined',
+                    accountno: credits.account ? credits.account.accountno : 'undefined',
                     description: credits.description,
                     document: "",
                     timestamp: "",
@@ -1287,33 +1287,33 @@ exports.exportExcel = function (req, res) {
     // ws.cell(1,7).number(45900).style(numStyle).style({font:{ size : 25 }});
 
 
-    // if (req.daily) {
-    //     var ws = wb.addWorksheet(req.daily.title);
-    //     ws.cell(1, 1).string('วันที่');
-    //     ws.cell(1, 2).string('เลขเอกสาร');
-    //     ws.cell(1, 3).string('รายการ');
-    //     ws.cell(1, 4).string('รหัสบัญชี');
-    //     ws.cell(1, 5).string('เช็ค/ใบสำคัญ');
-    //     ws.cell(1, 6).string('ลงวันที่');
-    //     ws.cell(1, 7).string('เดบิต');
-    //     ws.cell(1, 8).string('เครดิด');
+    if (req.daily) {
+        var ws = wb.addWorksheet(req.daily.title);
+        ws.cell(1, 1).string('วันที่');
+        ws.cell(1, 2).string('เลขเอกสาร');
+        ws.cell(1, 3).string('รายการ');
+        ws.cell(1, 4).string('รหัสบัญชี');
+        ws.cell(1, 5).string('เช็ค/ใบสำคัญ');
+        ws.cell(1, 6).string('ลงวันที่');
+        ws.cell(1, 7).string('เดบิต');
+        ws.cell(1, 8).string('เครดิด');
 
-    //     var i = 2;
-    //     req.daily.transaction.forEach(function (tran) {
-    //         ws.cell(i, 1).string(tran.docdate.toISOString().slice(0,10).replace(/-/g,""));
-    //         ws.cell(i, 2).string(tran.docno);
-    //         tran.list.forEach(function (detail) {
-    //             ws.cell(i, 3).string(detail.accountname);
-    //             ws.cell(i, 4).string(detail.accountno);
-    //             ws.cell(i, 5).string('');
-    //             ws.cell(i, 6).string('');
-    //             ws.cell(i, 7).number(detail.debit || 0).style(numStyle);
-    //             ws.cell(i, 8).number(detail.credit || 0).style(numStyle);
-    //             i++;
-    //         });
-    //         i++;
-    //     });
-    // }
+        var i = 2;
+        req.daily.transaction.forEach(function (tran) {
+            ws.cell(i, 1).string(tran.docdate.toISOString().slice(0, 10).replace(/-/g, ""));
+            ws.cell(i, 2).string(tran.docno);
+            tran.list.forEach(function (detail) {
+                ws.cell(i, 3).string(detail.accountname);
+                ws.cell(i, 4).string(detail.accountno);
+                ws.cell(i, 5).string('');
+                ws.cell(i, 6).string('');
+                ws.cell(i, 7).number(detail.debit || 0).style(numStyle);
+                ws.cell(i, 8).number(detail.credit || 0).style(numStyle);
+                i++;
+            });
+            i++;
+        });
+    }
 
     if (req.balancetests) {
         var ws = wb.addWorksheet(req.balancetests.title);
