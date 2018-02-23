@@ -608,15 +608,15 @@ exports.generateGlDaily = function (req, res, next) {
 
     }
 
-    daily.transaction.sort(function (a, b) {
-        var adate = new Date(a.docdate).getTime(),
-            bdate = new Date(b.docdate).getTime(),
-            rv = adate - bdate;
-        if (rv === 0) {
-            rv = a.docno.localeCompare(b.docno);
-        }
-        return rv;
-    });
+    // daily.transaction.sort(function (a, b) {
+    //     var adate = new Date(a.docdate).getTime(),
+    //         bdate = new Date(b.docdate).getTime(),
+    //         rv = adate - bdate;
+    //     if (rv === 0) {
+    //         rv = a.docno.localeCompare(b.docno);
+    //     }
+    //     return rv;
+    // });
 
     // daily.transaction.sort(function (a, b) {
     //     return new Date(a.docdate).getTime() - new Date(b.docdate).getTime();
@@ -1059,8 +1059,8 @@ exports.generateAcceach = function (req, res, next) {
                 description: ""
             };
 
-            acceachGrop.current.debit = currentDebit + carryforwardDebit;
-            acceachGrop.current.credit = currentCredit + carryforwardCredit;
+            acceachGrop.current.debit = currentDebit;// + carryforwardDebit;
+            acceachGrop.current.credit = currentCredit;// + carryforwardCredit;
 
             transaction = _(transaction)
                 .groupBy('docdate')
