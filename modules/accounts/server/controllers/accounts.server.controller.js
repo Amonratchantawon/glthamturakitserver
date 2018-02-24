@@ -851,7 +851,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                     credit: carryforwardCredit,
                     description: "",
                     currentDebit: currentDebit,
-                    currentCredit: currentCredit
+                    currentCredit: currentCredit,
+                    transactionAccEach : transactionAccEach
                 };
 
                 transactionAccEach = _(transactionAccEach)
