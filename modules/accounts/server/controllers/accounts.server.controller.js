@@ -833,9 +833,10 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 acceachGrop.current.debit = currentDebit > currentCredit ? currentDebit : currentCredit;
                 acceachGrop.current.credit = acceachGrop.current.debit;
                 if (sumCurent >= 0) {
-                    carryforwardCredit = sumCurent;
-                } else {
                     carryforwardDebit = Math.abs(sumCurent);
+                   
+                } else {
+                    carryforwardCredit =  Math.abs(sumCurent);
                 }
 
                 acceachGrop.carryforward = {
@@ -1041,9 +1042,7 @@ exports.generateAcceach = function (req, res, next) {
 
             if (sumCurent >= 0) {
                 carryforwardDebit = Math.abs(sumCurent);
-                //carryforwardCredit = sumCurent;
             } else {
-                //carryforwardDebit = Math.abs(sumCurent);
                 carryforwardCredit = Math.abs(sumCurent);
             }
 
