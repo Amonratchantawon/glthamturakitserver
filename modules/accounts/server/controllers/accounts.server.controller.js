@@ -737,83 +737,94 @@ exports.getBringForwardForAcceach = function (req, res, next) {
 
                     var macthAccount = dailyIList[indexOfAccountno];
                     var iii = 0;
-                    if (macthAccount.debit > 0) {
+                    transactionAccEach.push({
+                        docdate: dailyI.docdate,
+                        docno: dailyI.docno,
+                        accountname: dailyListCredit[0].accountname,
+                        accountno: dailyListCredit[0].accountno,
+                        document: "",
+                        timestamp: "",
+                        debit: macthAccount.debit || 0,
+                        credit: macthAccount.credit || 0,
+                        description: dailyListCredit[0].description
+                    });
+                    // if (macthAccount.debit > 0) {
 
-                        var sumCredit = 0;
-                        var dailyListCredit = [];
-                        for (iii; iii < dailyIListLength; iii++) {
-                            var dailyListICredit = dailyIList[iii];
-                            if (dailyListICredit.credit > 0) {
-                                sumCredit += dailyListICredit.credit;
-                                dailyListCredit.push({
-                                    docdate: dailyI.docdate,
-                                    docno: dailyI.docno,
-                                    accountname: dailyListICredit.accountname,
-                                    accountno: dailyListICredit.accountno,
-                                    document: "",
-                                    timestamp: "",
-                                    debit: dailyListICredit.debit,
-                                    credit: dailyListICredit.credit,
-                                    description: dailyListICredit.description
-                                });
-                            }
-                        }
+                    //     var sumCredit = 0;
+                    //     var dailyListCredit = [];
+                    //     for (iii; iii < dailyIListLength; iii++) {
+                    //         var dailyListICredit = dailyIList[iii];
+                    //         if (dailyListICredit.credit > 0) {
+                    //             sumCredit += dailyListICredit.credit;
+                    //             dailyListCredit.push({
+                    //                 docdate: dailyI.docdate,
+                    //                 docno: dailyI.docno,
+                    //                 accountname: dailyListICredit.accountname,
+                    //                 accountno: dailyListICredit.accountno,
+                    //                 document: "",
+                    //                 timestamp: "",
+                    //                 debit: dailyListICredit.debit,
+                    //                 credit: dailyListICredit.credit,
+                    //                 description: dailyListICredit.description
+                    //             });
+                    //         }
+                    //     }
 
-                        if (macthAccount.debit === sumCredit) {
-                            transactionAccEach = transactionAccEach.concat(dailyListCredit);
-                        } else {
-                            transactionAccEach.push({
-                                docdate: dailyI.docdate,
-                                docno: dailyI.docno,
-                                accountname: dailyListCredit[0].accountname,
-                                accountno: dailyListCredit[0].accountno,
-                                document: "",
-                                timestamp: "",
-                                debit: macthAccount.debit,
-                                credit: 0,
-                                description: dailyListCredit[0].description
-                            });
-                        }
+                    //     if (macthAccount.debit === sumCredit) {
+                    //         transactionAccEach = transactionAccEach.concat(dailyListCredit);
+                    //     } else {
+                    //         transactionAccEach.push({
+                    //             docdate: dailyI.docdate,
+                    //             docno: dailyI.docno,
+                    //             accountname: dailyListCredit[0].accountname,
+                    //             accountno: dailyListCredit[0].accountno,
+                    //             document: "",
+                    //             timestamp: "",
+                    //             debit: macthAccount.debit,
+                    //             credit: 0,
+                    //             description: dailyListCredit[0].description
+                    //         });
+                    //     }
 
-                    } else if (macthAccount.credit > 0) {
+                    // } else if (macthAccount.credit > 0) {
 
-                        var sumDebit = 0;
-                        var dailyListDabit = [];
-                        for (iii; iii < dailyIListLength; iii++) {
-                            var dailyListIDabit = dailyIList[iii];
-                            if (dailyListIDabit.debit > 0) {
-                                sumDebit += dailyListIDabit.debit;
-                                dailyListDabit.push({
-                                    docdate: dailyI.docdate,
-                                    docno: dailyI.docno,
-                                    accountname: dailyListIDabit.accountname,
-                                    accountno: dailyListIDabit.accountno,
-                                    document: "",
-                                    timestamp: "",
-                                    debit: dailyListIDabit.credit,
-                                    credit: dailyListIDabit.debit,
-                                    description: dailyListIDabit.description
-                                });
-                            }
-                        }
+                    //     var sumDebit = 0;
+                    //     var dailyListDabit = [];
+                    //     for (iii; iii < dailyIListLength; iii++) {
+                    //         var dailyListIDabit = dailyIList[iii];
+                    //         if (dailyListIDabit.debit > 0) {
+                    //             sumDebit += dailyListIDabit.debit;
+                    //             dailyListDabit.push({
+                    //                 docdate: dailyI.docdate,
+                    //                 docno: dailyI.docno,
+                    //                 accountname: dailyListIDabit.accountname,
+                    //                 accountno: dailyListIDabit.accountno,
+                    //                 document: "",
+                    //                 timestamp: "",
+                    //                 debit: dailyListIDabit.credit,
+                    //                 credit: dailyListIDabit.debit,
+                    //                 description: dailyListIDabit.description
+                    //             });
+                    //         }
+                    //     }
 
-                        if (macthAccount.credit === sumDebit) {
-                            transactionAccEach = transactionAccEach.concat(dailyListDabit);
-                        } else {
-                            transactionAccEach.push({
-                                docdate: dailyI.docdate,
-                                docno: dailyI.docno,
-                                accountname: dailyListDabit[0].accountname,
-                                accountno: dailyListDabit[0].accountno,
-                                document: "",
-                                timestamp: "",
-                                debit: 0,
-                                credit: macthAccount.credit,
-                                description: dailyListDabit[0].description
-                            });
-                        }
+                    //     if (macthAccount.credit === sumDebit) {
+                    //         transactionAccEach = transactionAccEach.concat(dailyListDabit);
+                    //     } else {
+                    //         transactionAccEach.push({
+                    //             docdate: dailyI.docdate,
+                    //             docno: dailyI.docno,
+                    //             accountname: dailyListDabit[0].accountname,
+                    //             accountno: dailyListDabit[0].accountno,
+                    //             document: "",
+                    //             timestamp: "",
+                    //             debit: 0,
+                    //             credit: macthAccount.credit,
+                    //             description: dailyListDabit[0].description
+                    //         });
+                    //     }
 
-                    }
+                    // }
 
                 }
             }
