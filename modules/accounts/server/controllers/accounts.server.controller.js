@@ -822,26 +822,11 @@ exports.getBringForwardForAcceach = function (req, res, next) {
             var currentDebit = 0;
             var currentCredit = 0;
             if (tranLength > 0) {
-                // Group Transaction แบบรายวัน
-                transactionAccEach = _(transactionAccEach)
-                    .groupBy('docdate')
-                    .reduce(function (array, children, key) {
-                        array.push({
-                            docdate: key,
-                            list: children
-                        });
-
-                        return array;
-                    }, []);
-
-                acceachGrop.transaction = transactionAccEach;
 
                 for (var index = 0; index < tranLength; index++) {
                     var tran = transactionAccEach[index];
-                    tran.list.forEach(function (itm) {
-                        currentDebit += itm.debit;
-                        currentCredit += itm.credit;
-                    })
+                    currentDebit += tran.debit;
+                    currentCredit += tran.credit;
                 }
                 var carryforwardDebit = 0;
                 var carryforwardCredit = 0;
@@ -850,9 +835,9 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 acceachGrop.current.credit = acceachGrop.current.debit;
                 if (sumCurent >= 0) {
                     carryforwardDebit = Math.abs(sumCurent);
-
+                   
                 } else {
-                    carryforwardCredit = Math.abs(sumCurent);
+                    carryforwardCredit =  Math.abs(sumCurent);
                 }
 
                 acceachGrop.carryforward = {
@@ -868,6 +853,19 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                     currentDebit: currentDebit,
                     currentCredit: currentCredit
                 };
+
+                transactionAccEach = _(transactionAccEach)
+                    .groupBy('docdate')
+                    .reduce(function (array, children, key) {
+                        array.push({
+                            docdate: key,
+                            list: children
+                        });
+
+                        return array;
+                    }, []);
+
+                acceachGrop.transaction = transactionAccEach;
                 acceach.push(acceachGrop);
             }
         }
