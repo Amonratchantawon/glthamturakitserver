@@ -659,6 +659,7 @@ exports.getBringForwardForAcceach = function (req, res, next) {
         };
 
         var acc = account.length;
+        // For loop ตาม ยกมา สร้าง transacetion ยอดยกมา
         for (var i = 0; i < acc; i++) {
             var element = account[i];
             var transaction = {
@@ -751,8 +752,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                                     accountno: dailyListICredit.accountno,
                                     document: "",
                                     timestamp: "",
-                                    debit: dailyListICredit.debit,//dailyListICredit.credit,
-                                    credit: dailyListICredit.credit,//dailyListICredit.debit,
+                                    debit: dailyListICredit.debit,
+                                    credit: dailyListICredit.credit,
                                     description: dailyListICredit.description
                                 });
                             }
@@ -1020,7 +1021,8 @@ exports.generateAcceach = function (req, res, next) {
                     timestamp: "",
                     debit: req.bringforward[indexOfbringforward].carryforward.debit,
                     credit: req.bringforward[indexOfbringforward].carryforward.credit,
-                    description: ""
+                    description: "",
+                    transaction: req.bringforward
                 };
             } else {
                 acceachGrop.bringforward = {
