@@ -737,8 +737,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
 
                     var macthAccount = dailyIList[indexOfAccountno];
                     var iii = 0;
+                    //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
                     if (macthAccount.debit > 0) {
-
                         var sumCredit = 0;
                         var dailyListCredit = [];
                         for (iii; iii < dailyIListLength; iii++) {
@@ -752,8 +752,8 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                                     accountno: dailyListICredit.accountno,
                                     document: "",
                                     timestamp: "",
-                                    debit: dailyListICredit.debit,
-                                    credit: dailyListICredit.credit,
+                                    debit: dailyListICredit.credit,
+                                    credit: dailyListICredit.debit,
                                     description: dailyListICredit.description
                                 });
                             }
@@ -775,7 +775,9 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                             });
                         }
 
-                    } else if (macthAccount.credit > 0) {
+                    }
+                    //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
+                    else if (macthAccount.credit > 0) {
 
                         var sumDebit = 0;
                         var dailyListDabit = [];
@@ -835,9 +837,9 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 acceachGrop.current.credit = acceachGrop.current.debit;
                 if (sumCurent >= 0) {
                     carryforwardDebit = Math.abs(sumCurent);
-                   
+
                 } else {
-                    carryforwardCredit =  Math.abs(sumCurent);
+                    carryforwardCredit = Math.abs(sumCurent);
                 }
 
                 acceachGrop.carryforward = {
@@ -951,7 +953,7 @@ exports.generateAcceach = function (req, res, next) {
                         });
                     }
 
-                } 
+                }
                 //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
                 else if (macthAccount.credit > 0) {
 
