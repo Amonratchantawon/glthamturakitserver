@@ -1022,7 +1022,7 @@ exports.generateAcceach = function (req, res, next) {
                     debit: req.bringforward[indexOfbringforward].carryforward.debit,
                     credit: req.bringforward[indexOfbringforward].carryforward.credit,
                     description: "",
-                    transaction: req.bringforward
+                    transaction: req.bringforward[indexOfbringforward]
                 };
             } else {
                 acceachGrop.bringforward = {
