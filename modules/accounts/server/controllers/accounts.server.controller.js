@@ -1327,7 +1327,8 @@ exports.returnGlreport = function (req, res) {
         acceach: req.acceach,
         gain: req.gain,
         balance: req.balance,
-        balancetests: req.balancetests
+        balancetests: req.balancetests,
+        bringforward : req.bringforward
     };
     res.jsonp(glreport);
 };
