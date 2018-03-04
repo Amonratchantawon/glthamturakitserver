@@ -883,84 +883,87 @@ exports.generateAcceach = function (req, res, next) {
         var tranLength = transaction.length;
         var currentDebit = 0;
         var currentCredit = 0;
-        if (tranLength > 0 || true) {
-            //summary ยอดในงวดของแต่ละรหัสบัญชี
-            for (var index = 0; index < tranLength; index++) {
-                var tran = transaction[index];
-                currentDebit += tran.debit;
-                currentCredit += tran.credit;
-            }
+        // if (tranLength > 0 || true) {
 
-            //ยอดยกมา
-            var indexOfbringforward = req.bringforward.map(function (e) {
-                return e.accountno;
-            }).indexOf(accountchartI.accountno);
+        // }
+        //summary ยอดในงวดของแต่ละรหัสบัญชี
+        for (var index = 0; index < tranLength; index++) {
+            var tran = transaction[index];
+            currentDebit += tran.debit;
+            currentCredit += tran.credit;
+        }
 
-            if (indexOfbringforward !== -1) {
-                currentDebit += req.bringforward[indexOfbringforward].carryforward.debit;
-                currentCredit += req.bringforward[indexOfbringforward].carryforward.credit;
-                acceachGrop.bringforward = {
-                    docdate: "",
-                    docno: "",
-                    accountname: "ยอดยกมา",
-                    accountno: "",
-                    document: "",
-                    timestamp: "",
-                    debit: req.bringforward[indexOfbringforward].carryforward.debit,
-                    credit: req.bringforward[indexOfbringforward].carryforward.credit,
-                    description: "",
-                    transaction: req.bringforward[indexOfbringforward]
-                };
-            } else {
-                acceachGrop.bringforward = {
-                    docdate: "",
-                    docno: "",
-                    accountname: "ยอดยกมา",
-                    accountno: "",
-                    document: "",
-                    timestamp: "",
-                    debit: 0,
-                    credit: 0,
-                    description: ""
-                };
-            }
+        //ยอดยกมา
+        var indexOfbringforward = req.bringforward.map(function (e) {
+            return e.accountno;
+        }).indexOf(accountchartI.accountno);
 
-            var carryforwardDebit = 0;
-            var carryforwardCredit = 0;
-            var sumCurent = currentDebit - currentCredit;
-
-            if (sumCurent >= 0) {
-                carryforwardDebit = Math.abs(sumCurent);
-            } else {
-                carryforwardCredit = Math.abs(sumCurent);
-            }
-
-            acceachGrop.carryforward = {
+        if (indexOfbringforward !== -1) {
+            currentDebit += req.bringforward[indexOfbringforward].carryforward.debit;
+            currentCredit += req.bringforward[indexOfbringforward].carryforward.credit;
+            acceachGrop.bringforward = {
                 docdate: "",
                 docno: "",
-                accountname: "ยอดยกไป",
+                accountname: "ยอดยกมา",
                 accountno: "",
                 document: "",
                 timestamp: "",
-                debit: carryforwardDebit,
-                credit: carryforwardCredit,
+                debit: req.bringforward[indexOfbringforward].carryforward.debit,
+                credit: req.bringforward[indexOfbringforward].carryforward.credit,
+                description: "",
+                transaction: req.bringforward[indexOfbringforward]
+            };
+        } else {
+            acceachGrop.bringforward = {
+                docdate: "",
+                docno: "",
+                accountname: "ยอดยกมา",
+                accountno: "",
+                document: "",
+                timestamp: "",
+                debit: 0,
+                credit: 0,
                 description: ""
             };
+        }
 
-            acceachGrop.current.debit = currentDebit;// + carryforwardDebit;
-            acceachGrop.current.credit = currentCredit;// + carryforwardCredit;
+        var carryforwardDebit = 0;
+        var carryforwardCredit = 0;
+        var sumCurent = currentDebit - currentCredit;
 
-            transaction = _(transaction)
-                .groupBy('docdate')
-                .reduce(function (array, children, key) {
-                    array.push({
-                        docdate: key,
-                        list: children
-                    });
+        if (sumCurent >= 0) {
+            carryforwardDebit = Math.abs(sumCurent);
+        } else {
+            carryforwardCredit = Math.abs(sumCurent);
+        }
 
-                    return array;
-                }, []);
+        acceachGrop.carryforward = {
+            docdate: "",
+            docno: "",
+            accountname: "ยอดยกไป",
+            accountno: "",
+            document: "",
+            timestamp: "",
+            debit: carryforwardDebit,
+            credit: carryforwardCredit,
+            description: ""
+        };
 
+        acceachGrop.current.debit = currentDebit;// + carryforwardDebit;
+        acceachGrop.current.credit = currentCredit;// + carryforwardCredit;
+
+        transaction = _(transaction)
+            .groupBy('docdate')
+            .reduce(function (array, children, key) {
+                array.push({
+                    docdate: key,
+                    list: children
+                });
+
+                return array;
+            }, []);
+
+        if (currentDebit > 0 || currentCredit > 0) {
             acceachGrop.transaction = transaction;
             acceach.push(acceachGrop);
         }
