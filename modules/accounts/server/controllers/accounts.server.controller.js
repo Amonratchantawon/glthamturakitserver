@@ -1264,7 +1264,7 @@ function generateGlByType(acceach, accountChart, type, name) {
         }).indexOf(acceachI09.accountno);
         if (indexOfGG !== -1) {
             /**jigkoh3 */
-            if(type === '01' || type === '03' || type === '04'){
+            if(type === '01' || type === '03' || type === '04' || type === '11' || type === '12' || type === '13'){
                 GG.list[indexOfGG].amount = acceachI09.carryforward.debit > 0 ? acceachI09.carryforward.debit : (acceachI09.carryforward.credit * -1);
             }else{
                 GG.list[indexOfGG].amount = acceachI09.carryforward.debit > 0 ? (acceachI09.carryforward.debit * -1) : acceachI09.carryforward.credit;
