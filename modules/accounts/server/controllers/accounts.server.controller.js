@@ -1079,6 +1079,7 @@ exports.generateBalance = function (req, res, next) {
         amount: req.gain.transaction[7].summary
     });
     balance.debt.transaction.push(sumGain);
+    balance.debt.transaction[1].summary += req.gain.transaction[7].summary;
     
     balance.debt.transaction[1].sumtrans = {
         accountno: "- รวมส่วนของผู้ถือหุ้น -",
