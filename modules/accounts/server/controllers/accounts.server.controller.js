@@ -1033,11 +1033,6 @@ exports.generateGain = function (req, res, next) {
     gain.transaction.push(summarygain);
     // 7 จบกำไรสุทธิ (ขาดทุนสุทธิ)***
 
-    // 8 นำกำไรสุทธิ (ขาดทุนสุทธิ)บันทึก กำไรสุทธิ (ขาดทุนสุทธิ)สะสม
-    //req.accountcharts
-    //accountChart
-    // 8 จบนำกำไรสุทธิ (ขาดทุนสุทธิ)บันทึก กำไรสุทธิ (ขาดทุนสุทธิ)สะสม
-
     req.gain = gain;
     next();
 };
@@ -1076,7 +1071,15 @@ exports.generateBalance = function (req, res, next) {
         amount: balance.debt.transaction[0].summary
     };
 
-    balance.debt.transaction.push(generateGlByType(acceach, accountChart, '08', 'ส่วนของผู้ถือหุ้น'));
+    //กำไรสะสมต้นงวด
+    var sumGain = generateGlByType(acceach, accountChart, '08', 'ส่วนของผู้ถือหุ้น');
+    sumGain.list.push({
+        accountno: '',
+        accountname: 'กำไรสุทธิ(จากงบกำไรขาดทุน)',
+        amount: req.gain.transaction[7].summary
+    });
+    balance.debt.transaction.push(sumGain);
+    
     balance.debt.transaction[1].sumtrans = {
         accountno: "- รวมส่วนของผู้ถือหุ้น -",
         amount: balance.debt.transaction[1].summary
