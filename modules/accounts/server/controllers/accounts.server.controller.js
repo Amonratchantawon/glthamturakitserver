@@ -1024,13 +1024,19 @@ exports.generateGain = function (req, res, next) {
     gain.transaction.push(generateGlByType(acceach, accountChart, '13', 'ค่าใช้จ่ายอื่น'));
     // 6 จบค่าใช้จ่ายอื่น
 
-    // 7 กำไรสุทธิ***
-    gain.transaction.push({
+    // 7 กำไรสุทธิ (ขาดทุนสุทธิ)***
+    var summarygain = {
         accounttype: "กำไรสุทธิ (ขาดทุนสุทธิ)",
         list: [],
         summary: (gain.transaction[5].sumtrans.amount ? gain.transaction[5].sumtrans.amount : 0) - (gain.transaction[6].summary ? gain.transaction[6].summary : 0)
-    });
-    // 7 จบกำไรสุทธิ***
+    };
+    gain.transaction.push(summarygain);
+    // 7 จบกำไรสุทธิ (ขาดทุนสุทธิ)***
+
+    // 8 นำกำไรสุทธิ (ขาดทุนสุทธิ)บันทึก กำไรสุทธิ (ขาดทุนสุทธิ)สะสม
+    //req.accountcharts
+    //accountChart
+    // 8 จบนำกำไรสุทธิ (ขาดทุนสุทธิ)บันทึก กำไรสุทธิ (ขาดทุนสุทธิ)สะสม
 
     req.gain = gain;
     next();
