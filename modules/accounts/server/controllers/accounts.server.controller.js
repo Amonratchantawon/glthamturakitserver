@@ -669,8 +669,10 @@ exports.acceachCooking = function (req, res, next) {
         var dr = 0;
         var cr = 0;
         if(lstOfAccount && lstOfAccount.length > 0){
-            dr = _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount));
-            cr = _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount));
+            //dr = _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount));
+            //cr = _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount));
+            dr = 1;
+            cr = 1;
         }
         // debit: _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount)),
         //         credit: _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount))
