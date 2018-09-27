@@ -745,18 +745,18 @@ mergeTrans = function (account) {
 
         var creditsLength = element.credits.length;
         for (var c = 0; c < creditsLength; c++) {
-            var credits = element.credits[c];
+            var credit = element.credits[c];
             var transaction = {
                 docdate: element.docdate,
                 docno: element.docno,
                 remark: element.remark,
-                accountname: debit.account ? debit.account.name : 'undefined',
-                accountno: debit.account ? debit.account.accountno : 'undefined',
-                description: debit.description,
+                accountname: credit.account ? credit.account.name : 'undefined',
+                accountno: credit.account ? credit.account.accountno : 'undefined',
+                description: credit.description,
                 document: "",
                 timestamp: "",
-                debit: debit.amount,
-                credit: 0
+                debit: 0,
+                credit: credit.amount
             };
             trans.push(transaction);
         }
