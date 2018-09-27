@@ -701,7 +701,7 @@ exports.acceachCooking = function (req, res, next) {
                 credit: 0,
                 description: ""
             },
-            transaction: lstOfAccount
+            transaction: current
         };
 
 
