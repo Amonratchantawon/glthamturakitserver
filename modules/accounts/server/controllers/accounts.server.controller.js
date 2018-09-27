@@ -639,7 +639,7 @@ exports.getAccountchart = function (req, res, next) {
     });
 };
 
-exports.getBringAccount = function(req, res, next){
+exports.getBringAccount = function (req, res, next) {
     Account.find({
         docdate: {
             $lt: req.firstDay
@@ -658,9 +658,11 @@ exports.getBringAccount = function(req, res, next){
     });
 };
 
-exports.acceachCooking = function(req, res, next){
+exports.acceachCooking = function (req, res, next) {
     var acceach = [];
-    
+    var current = mergeTrans(req.account);
+    var bring = mergeTrans(req.bringaccount);
+
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
         var acceachGrop = {
@@ -700,12 +702,67 @@ exports.acceachCooking = function(req, res, next){
             },
             transaction: []
         };
-        acceach.push(acceachGrop);  
+
+        // var output =
+        //     _(current)
+        //         .groupBy('proj_mgr')
+        //         .map((objs, key) => ({
+        //             'proj_mgr': key,
+        //             'submitted_dollars': _.sumBy(objs, 'submitted_dollars')
+        //         }))
+        //         .value();
+
+
+        acceach.push(acceachGrop);
     }
 
     req.acceach = acceach;
     next();
 };
+
+
+mergeTrans = function (account) {
+    var trans = [];
+    for (var i = 0; i < account.length; i++) {
+        var element = account[i];
+        var debitLength = element.debits.length;
+        for (var d = 0; d < debitLength; d++) {
+            var debit = element.debits[d];
+            var transaction = {
+                docdate: element.docdate,
+                docno: element.docno,
+                remark: element.remark,
+                accountname: debit.account ? debit.account.name : 'undefined',
+                accountno: debit.account ? debit.account.accountno : 'undefined',
+                description: debit.description,
+                document: "",
+                timestamp: "",
+                debit: debit.amount,
+                credit: 0
+            };
+            trans.push(transaction);
+        }
+
+        var creditsLength = element.credits.length;
+        for (var c = 0; c < creditsLength; c++) {
+            var credits = element.credits[c];
+            var transaction = {
+                docdate: element.docdate,
+                docno: element.docno,
+                remark: element.remark,
+                accountname: debit.account ? debit.account.name : 'undefined',
+                accountno: debit.account ? debit.account.accountno : 'undefined',
+                description: debit.description,
+                document: "",
+                timestamp: "",
+                debit: debit.amount,
+                credit: 0
+            };
+            trans.push(transaction);
+        }
+    }
+    return trans;
+}
 
 
 
@@ -1150,7 +1207,7 @@ exports.generateBalance = function (req, res, next) {
     });
     balance.debt.transaction.push(sumGain);
     balance.debt.transaction[1].summary += req.gain.transaction[7].summary;
-    
+
     balance.debt.transaction[1].sumtrans = {
         accountno: "- รวมส่วนของผู้ถือหุ้น -",
         amount: balance.debt.transaction[1].summary
@@ -1344,12 +1401,12 @@ function generateGlByType(acceach, accountChart, type, name) {
         }).indexOf(acceachI09.accountno);
         if (indexOfGG !== -1) {
             /**jigkoh3 */
-            if(type === '01' || type === '03' || type === '04' || type === '11' || type === '12' || type === '13'){
+            if (type === '01' || type === '03' || type === '04' || type === '11' || type === '12' || type === '13') {
                 GG.list[indexOfGG].amount = acceachI09.carryforward.debit > 0 ? acceachI09.carryforward.debit : (acceachI09.carryforward.credit * -1);
-            }else{
+            } else {
                 GG.list[indexOfGG].amount = acceachI09.carryforward.debit > 0 ? (acceachI09.carryforward.debit * -1) : acceachI09.carryforward.credit;
             }
-            
+
         }
     }
     var GGListLength = GG.list.length;
