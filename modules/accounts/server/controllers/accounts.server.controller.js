@@ -666,22 +666,24 @@ exports.acceachCooking = function (req, res, next) {
     var curSumByAcc =
         _(current)
             .groupBy('accountno')
-            .map((objs, key) => ({
-                'accountno': key,
-                'debit': _.sumBy(objs, 'debit'),
-                'credit': _.sumBy(objs, 'credit')
-            }))
-            .value();
+            .map(function (objs, key) {
+                return {
+                    'accountno': key,
+                    'debit': _.sumBy(objs, 'debit'),
+                    'credit': _.sumBy(objs, 'credit')
+                };
+            }).value();
 
     var befSumByAcc =
         _(bring)
             .groupBy('accountno')
-            .map((objs, key) => ({
-                'accountno': key,
-                'debit': _.sumBy(objs, 'debit'),
-                'credit': _.sumBy(objs, 'credit')
-            }))
-            .value();
+            .map(function (objs, key) {
+                return {
+                    'accountno': key,
+                    'debit': _.sumBy(objs, 'debit'),
+                    'credit': _.sumBy(objs, 'credit')
+                };
+            }).value();
 
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
