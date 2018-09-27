@@ -663,6 +663,26 @@ exports.acceachCooking = function (req, res, next) {
     var current = mergeTrans(req.account);
     var bring = mergeTrans(req.bringaccount);
 
+    var curSumByAcc =
+        _(current)
+            .groupBy('accountno')
+            .map((objs, key) => ({
+                'accountno': key,
+                'debit': _.sumBy(objs, 'debit'),
+                'credit': _.sumBy(objs, 'credit')
+            }))
+            .value();
+
+    var befSumByAcc =
+        _(bring)
+            .groupBy('accountno')
+            .map((objs, key) => ({
+                'accountno': key,
+                'debit': _.sumBy(objs, 'debit'),
+                'credit': _.sumBy(objs, 'credit')
+            }))
+            .value();
+
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
         var acceachGrop = {
@@ -703,14 +723,8 @@ exports.acceachCooking = function (req, res, next) {
             transaction: []
         };
 
-        // var output =
-        //     _(current)
-        //         .groupBy('proj_mgr')
-        //         .map((objs, key) => ({
-        //             'proj_mgr': key,
-        //             'submitted_dollars': _.sumBy(objs, 'submitted_dollars')
-        //         }))
-        //         .value();
+
+
 
 
         acceach.push(acceachGrop);
