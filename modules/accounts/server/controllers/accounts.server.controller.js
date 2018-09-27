@@ -838,153 +838,153 @@ exports.generateAcceach = function (req, res, next) {
     var dailyLength = daily.transaction.length;
     var acceach = [];
 
-    for (var i = 0; i < accChartsLength; i++) {
-        var accountchartI = accountchart[i];
+    // for (var i = 0; i < accChartsLength; i++) {
+    //     var accountchartI = accountchart[i];
 
-        var acceachGrop = {
-            date: new Date(),
-            company: req.company ? req.company.name : "",
-            startdate: req.firstDay,
-            enddate: req.lastDay,
-            title: "บัญชีแยกประเภท" + accountchartI.name,
-            accountno: accountchartI.accountno,
-            account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
-            current: {
-                debit: 0,
-                credit: 0
-            },
-            transaction: []
-        };
+    //     var acceachGrop = {
+    //         date: new Date(),
+    //         company: req.company ? req.company.name : "",
+    //         startdate: req.firstDay,
+    //         enddate: req.lastDay,
+    //         title: "บัญชีแยกประเภท" + accountchartI.name,
+    //         accountno: accountchartI.accountno,
+    //         account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
+    //         current: {
+    //             debit: 0,
+    //             credit: 0
+    //         },
+    //         transaction: []
+    //     };
 
-        var transaction = [];
+    //     var transaction = [];
 
-        // //ในงวด
-        // for (var ii = 0; ii < dailyLength; ii++) {
-        //     var dailyI = daily.transaction[ii];
-        //     var lstOfAccount = _.filter(dailyI.list, { accountno: accountchartI.accountno });
-        //     for (var idx = 0; idx < lstOfAccount.length; idx++) {
-        //         var macthAccount = lstOfAccount[idx];
-        //         //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
-        //         if (macthAccount.debit > 0) {
-        //             transaction.push({
-        //                 docdate: dailyI.docdate,
-        //                 docno: dailyI.docno,
-        //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
-        //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
-        //                 document: "",
-        //                 timestamp: "",
-        //                 debit: macthAccount.debit,
-        //                 credit: 0,
-        //                 description: macthAccount.description//dailyListCredit[0].description
-        //             });
-        //         }
-        //         //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
-        //         else if (macthAccount.credit > 0) {
-        //             transaction.push({
-        //                 docdate: dailyI.docdate,
-        //                 docno: dailyI.docno,
-        //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
-        //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
-        //                 document: "",
-        //                 timestamp: "",
-        //                 debit: 0,
-        //                 credit: macthAccount.credit,
-        //                 description: macthAccount.description//dailyListCredit[0].description
-        //             });
-        //         }
-        //     }
-        // }
+    //     // //ในงวด
+    //     // for (var ii = 0; ii < dailyLength; ii++) {
+    //     //     var dailyI = daily.transaction[ii];
+    //     //     var lstOfAccount = _.filter(dailyI.list, { accountno: accountchartI.accountno });
+    //     //     for (var idx = 0; idx < lstOfAccount.length; idx++) {
+    //     //         var macthAccount = lstOfAccount[idx];
+    //     //         //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
+    //     //         if (macthAccount.debit > 0) {
+    //     //             transaction.push({
+    //     //                 docdate: dailyI.docdate,
+    //     //                 docno: dailyI.docno,
+    //     //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
+    //     //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
+    //     //                 document: "",
+    //     //                 timestamp: "",
+    //     //                 debit: macthAccount.debit,
+    //     //                 credit: 0,
+    //     //                 description: macthAccount.description//dailyListCredit[0].description
+    //     //             });
+    //     //         }
+    //     //         //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
+    //     //         else if (macthAccount.credit > 0) {
+    //     //             transaction.push({
+    //     //                 docdate: dailyI.docdate,
+    //     //                 docno: dailyI.docno,
+    //     //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
+    //     //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
+    //     //                 document: "",
+    //     //                 timestamp: "",
+    //     //                 debit: 0,
+    //     //                 credit: macthAccount.credit,
+    //     //                 description: macthAccount.description//dailyListCredit[0].description
+    //     //             });
+    //     //         }
+    //     //     }
+    //     // }
 
-        // var tranLength = transaction.length;
-        // var currentDebit = 0;
-        // var currentCredit = 0;
-        // // if (tranLength > 0 || true) {
+    //     // var tranLength = transaction.length;
+    //     // var currentDebit = 0;
+    //     // var currentCredit = 0;
+    //     // // if (tranLength > 0 || true) {
 
-        // // }
-        // //summary ยอดในงวดของแต่ละรหัสบัญชี
-        // for (var index = 0; index < tranLength; index++) {
-        //     var tran = transaction[index];
-        //     currentDebit += tran.debit;
-        //     currentCredit += tran.credit;
-        // }
+    //     // // }
+    //     // //summary ยอดในงวดของแต่ละรหัสบัญชี
+    //     // for (var index = 0; index < tranLength; index++) {
+    //     //     var tran = transaction[index];
+    //     //     currentDebit += tran.debit;
+    //     //     currentCredit += tran.credit;
+    //     // }
 
-        //ยอดยกมา
-        var indexOfbringforward = req.bringforward.map(function (e) {
-            return e.accountno;
-        }).indexOf(accountchartI.accountno);
+    //     //ยอดยกมา
+    //     var indexOfbringforward = req.bringforward.map(function (e) {
+    //         return e.accountno;
+    //     }).indexOf(accountchartI.accountno);
 
-        if (indexOfbringforward !== -1) {
-            currentDebit += req.bringforward[indexOfbringforward].carryforward.debit;
-            currentCredit += req.bringforward[indexOfbringforward].carryforward.credit;
-            acceachGrop.bringforward = {
-                docdate: "",
-                docno: "",
-                accountname: "ยอดยกมา",
-                accountno: "",
-                document: "",
-                timestamp: "",
-                debit: req.bringforward[indexOfbringforward].carryforward.debit,
-                credit: req.bringforward[indexOfbringforward].carryforward.credit,
-                description: "",
-                transaction: req.bringforward[indexOfbringforward]
-            };
-        } else {
-            acceachGrop.bringforward = {
-                docdate: "",
-                docno: "",
-                accountname: "ยอดยกมา",
-                accountno: "",
-                document: "",
-                timestamp: "",
-                debit: 0,
-                credit: 0,
-                description: ""
-            };
-        }
+    //     if (indexOfbringforward !== -1) {
+    //         currentDebit += req.bringforward[indexOfbringforward].carryforward.debit;
+    //         currentCredit += req.bringforward[indexOfbringforward].carryforward.credit;
+    //         acceachGrop.bringforward = {
+    //             docdate: "",
+    //             docno: "",
+    //             accountname: "ยอดยกมา",
+    //             accountno: "",
+    //             document: "",
+    //             timestamp: "",
+    //             debit: req.bringforward[indexOfbringforward].carryforward.debit,
+    //             credit: req.bringforward[indexOfbringforward].carryforward.credit,
+    //             description: "",
+    //             transaction: req.bringforward[indexOfbringforward]
+    //         };
+    //     } else {
+    //         acceachGrop.bringforward = {
+    //             docdate: "",
+    //             docno: "",
+    //             accountname: "ยอดยกมา",
+    //             accountno: "",
+    //             document: "",
+    //             timestamp: "",
+    //             debit: 0,
+    //             credit: 0,
+    //             description: ""
+    //         };
+    //     }
 
-        var carryforwardDebit = 0;
-        var carryforwardCredit = 0;
-        var sumCurent = currentDebit - currentCredit;
+    //     var carryforwardDebit = 0;
+    //     var carryforwardCredit = 0;
+    //     var sumCurent = currentDebit - currentCredit;
 
-        if (sumCurent >= 0) {
-            carryforwardDebit = Math.abs(sumCurent);
-        } else {
-            carryforwardCredit = Math.abs(sumCurent);
-        }
+    //     if (sumCurent >= 0) {
+    //         carryforwardDebit = Math.abs(sumCurent);
+    //     } else {
+    //         carryforwardCredit = Math.abs(sumCurent);
+    //     }
 
-        acceachGrop.carryforward = {
-            docdate: "",
-            docno: "",
-            accountname: "ยอดยกไป",
-            accountno: "",
-            document: "",
-            timestamp: "",
-            debit: carryforwardDebit,
-            credit: carryforwardCredit,
-            description: ""
-        };
+    //     acceachGrop.carryforward = {
+    //         docdate: "",
+    //         docno: "",
+    //         accountname: "ยอดยกไป",
+    //         accountno: "",
+    //         document: "",
+    //         timestamp: "",
+    //         debit: carryforwardDebit,
+    //         credit: carryforwardCredit,
+    //         description: ""
+    //     };
 
-        acceachGrop.current.debit = currentDebit;// + carryforwardDebit;
-        acceachGrop.current.credit = currentCredit;// + carryforwardCredit;
+    //     acceachGrop.current.debit = currentDebit;// + carryforwardDebit;
+    //     acceachGrop.current.credit = currentCredit;// + carryforwardCredit;
 
-        // transaction = _(transaction)
-        //     .groupBy('docdate')
-        //     .reduce(function (array, children, key) {
-        //         array.push({
-        //             docdate: key,
-        //             list: children
-        //         });
+    //     // transaction = _(transaction)
+    //     //     .groupBy('docdate')
+    //     //     .reduce(function (array, children, key) {
+    //     //         array.push({
+    //     //             docdate: key,
+    //     //             list: children
+    //     //         });
 
-        //         return array;
-        //     }, []);
+    //     //         return array;
+    //     //     }, []);
 
-        // if (currentDebit > 0 || currentCredit > 0) {
-        //     acceachGrop.transaction = transaction;
-        //     acceach.push(acceachGrop);
-        // }
+    //     // if (currentDebit > 0 || currentCredit > 0) {
+    //     //     acceachGrop.transaction = transaction;
+    //     //     acceach.push(acceachGrop);
+    //     // }
 
-        acceach.push(acceachGrop);
-    }
+    //     acceach.push(acceachGrop);
+    // }
     req.acceach = acceach;
     next();
 };
