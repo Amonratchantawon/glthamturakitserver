@@ -658,50 +658,50 @@ exports.getBringAccount = function(req, res, next){
     });
 };
 
-exports.acceachCooking = function(){
+exports.acceachCooking = function(req, res, next){
     var acceach = [];
     
-    // for (var i = 0; i < req.accountcharts.length; i++) {
-    //     var accountchartI = req.accountcharts[i];
-    //     var acceachGrop = {
-    //         date: new Date(),
-    //         company: req.company ? req.company.name : "",
-    //         startdate: req.firstDay,
-    //         enddate: req.lastDay,
-    //         title: "บัญชีแยกประเภท" + accountchartI.name,
-    //         accountno: accountchartI.accountno,
-    //         account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
-    //         current: {
-    //             debit: 0,
-    //             credit: 0
-    //         },
-    //         bringforward: {
-    //             docdate: "",
-    //             docno: "",
-    //             accountname: "ยอดยกมา",
-    //             accountno: "",
-    //             document: "",
-    //             timestamp: "",
-    //             debit: 0,
-    //             credit: 0,
-    //             description: "",
-    //             transaction: []
-    //         },
-    //         carryforward: {
-    //             docdate: "",
-    //             docno: "",
-    //             accountname: "ยอดยกไป",
-    //             accountno: "",
-    //             document: "",
-    //             timestamp: "",
-    //             debit: 0,
-    //             credit: 0,
-    //             description: ""
-    //         },
-    //         transaction: []
-    //     };
-    //     acceach.push(acceachGrop);  
-    // }
+    for (var i = 0; i < req.accountcharts.length; i++) {
+        var accountchartI = req.accountcharts[i];
+        var acceachGrop = {
+            date: new Date(),
+            company: req.company ? req.company.name : "",
+            startdate: req.firstDay,
+            enddate: req.lastDay,
+            title: "บัญชีแยกประเภท" + accountchartI.name,
+            accountno: accountchartI.accountno,
+            account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
+            current: {
+                debit: 0,
+                credit: 0
+            },
+            bringforward: {
+                docdate: "",
+                docno: "",
+                accountname: "ยอดยกมา",
+                accountno: "",
+                document: "",
+                timestamp: "",
+                debit: 0,
+                credit: 0,
+                description: "",
+                transaction: []
+            },
+            carryforward: {
+                docdate: "",
+                docno: "",
+                accountname: "ยอดยกไป",
+                accountno: "",
+                document: "",
+                timestamp: "",
+                debit: 0,
+                credit: 0,
+                description: ""
+            },
+            transaction: []
+        };
+        acceach.push(acceachGrop);  
+    }
 
     req.acceach = acceach;
     next();
