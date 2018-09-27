@@ -665,17 +665,15 @@ exports.acceachCooking = function (req, res, next) {
 
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
-        var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
+        var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno }).value;
         var dr = 0;
         var cr = 0;
-        if(lstOfAccount && lstOfAccount.length > 0){
-            //dr = _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount));
-            //cr = _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount));
-            dr = 1;
-            cr = 1;
+        
+        for (var idx = 0; idx < lstOfAccount.length; idx++) {
+            dr += lstOfAccount[idx].debit;
+            cr += lstOfAccount[idx].credit;
         }
-        // debit: _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount)),
-        //         credit: _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount))
+       
         var acceachGrop = {
             date: new Date(),
             company: req.company ? req.company.name : "",
