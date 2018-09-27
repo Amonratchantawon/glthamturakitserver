@@ -858,55 +858,55 @@ exports.generateAcceach = function (req, res, next) {
 
         var transaction = [];
 
-        //ในงวด
-        for (var ii = 0; ii < dailyLength; ii++) {
-            var dailyI = daily.transaction[ii];
-            var lstOfAccount = _.filter(dailyI.list, { accountno: accountchartI.accountno });
-            for (var idx = 0; idx < lstOfAccount.length; idx++) {
-                var macthAccount = lstOfAccount[idx];
-                //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
-                if (macthAccount.debit > 0) {
-                    transaction.push({
-                        docdate: dailyI.docdate,
-                        docno: dailyI.docno,
-                        accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
-                        accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
-                        document: "",
-                        timestamp: "",
-                        debit: macthAccount.debit,
-                        credit: 0,
-                        description: macthAccount.description//dailyListCredit[0].description
-                    });
-                }
-                //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
-                else if (macthAccount.credit > 0) {
-                    transaction.push({
-                        docdate: dailyI.docdate,
-                        docno: dailyI.docno,
-                        accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
-                        accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
-                        document: "",
-                        timestamp: "",
-                        debit: 0,
-                        credit: macthAccount.credit,
-                        description: macthAccount.description//dailyListCredit[0].description
-                    });
-                }
-            }
-        }
-
-        var tranLength = transaction.length;
-        var currentDebit = 0;
-        var currentCredit = 0;
-        // if (tranLength > 0 || true) {
-
+        // //ในงวด
+        // for (var ii = 0; ii < dailyLength; ii++) {
+        //     var dailyI = daily.transaction[ii];
+        //     var lstOfAccount = _.filter(dailyI.list, { accountno: accountchartI.accountno });
+        //     for (var idx = 0; idx < lstOfAccount.length; idx++) {
+        //         var macthAccount = lstOfAccount[idx];
+        //         //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
+        //         if (macthAccount.debit > 0) {
+        //             transaction.push({
+        //                 docdate: dailyI.docdate,
+        //                 docno: dailyI.docno,
+        //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
+        //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
+        //                 document: "",
+        //                 timestamp: "",
+        //                 debit: macthAccount.debit,
+        //                 credit: 0,
+        //                 description: macthAccount.description//dailyListCredit[0].description
+        //             });
+        //         }
+        //         //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
+        //         else if (macthAccount.credit > 0) {
+        //             transaction.push({
+        //                 docdate: dailyI.docdate,
+        //                 docno: dailyI.docno,
+        //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
+        //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
+        //                 document: "",
+        //                 timestamp: "",
+        //                 debit: 0,
+        //                 credit: macthAccount.credit,
+        //                 description: macthAccount.description//dailyListCredit[0].description
+        //             });
+        //         }
+        //     }
         // }
-        //summary ยอดในงวดของแต่ละรหัสบัญชี
-        for (var index = 0; index < tranLength; index++) {
-            var tran = transaction[index];
-            currentDebit += tran.debit;
-            currentCredit += tran.credit;
-        }
+
+        // var tranLength = transaction.length;
+        // var currentDebit = 0;
+        // var currentCredit = 0;
+        // // if (tranLength > 0 || true) {
+
+        // // }
+        // //summary ยอดในงวดของแต่ละรหัสบัญชี
+        // for (var index = 0; index < tranLength; index++) {
+        //     var tran = transaction[index];
+        //     currentDebit += tran.debit;
+        //     currentCredit += tran.credit;
+        // }
 
         //ยอดยกมา
         var indexOfbringforward = req.bringforward.map(function (e) {
@@ -967,21 +967,23 @@ exports.generateAcceach = function (req, res, next) {
         acceachGrop.current.debit = currentDebit;// + carryforwardDebit;
         acceachGrop.current.credit = currentCredit;// + carryforwardCredit;
 
-        transaction = _(transaction)
-            .groupBy('docdate')
-            .reduce(function (array, children, key) {
-                array.push({
-                    docdate: key,
-                    list: children
-                });
+        // transaction = _(transaction)
+        //     .groupBy('docdate')
+        //     .reduce(function (array, children, key) {
+        //         array.push({
+        //             docdate: key,
+        //             list: children
+        //         });
 
-                return array;
-            }, []);
+        //         return array;
+        //     }, []);
 
-        if (currentDebit > 0 || currentCredit > 0) {
-            acceachGrop.transaction = transaction;
-            acceach.push(acceachGrop);
-        }
+        // if (currentDebit > 0 || currentCredit > 0) {
+        //     acceachGrop.transaction = transaction;
+        //     acceach.push(acceachGrop);
+        // }
+
+        acceach.push(acceachGrop);
     }
     req.acceach = acceach;
     next();
