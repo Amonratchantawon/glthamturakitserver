@@ -701,7 +701,7 @@ exports.acceachCooking = function (req, res, next) {
                 credit: 0,
                 description: ""
             },
-            transaction: current
+            transaction: lstOfAccount
         };
 
 
@@ -710,7 +710,8 @@ exports.acceachCooking = function (req, res, next) {
 
         acceach.push(acceachGrop);
     }
-
+    req.current = current;
+    req.bring = bring;
     req.acceach = acceach;
     next();
 };
@@ -1233,8 +1234,8 @@ exports.returnGlreport = function (req, res) {
         daily: req.daily,
         acceach: req.acceach,
         gain: req.gain,
-        balance: req.balance,
-        balancetests: req.balancetests
+        balance: req.bring,
+        balancetests: req.current
     };
     res.jsonp(glreport);
 };
