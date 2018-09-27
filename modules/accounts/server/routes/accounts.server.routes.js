@@ -47,9 +47,9 @@ module.exports = function (app) {
 
     //สมุดบัญชีแยกประเภท
     app.route('/api/gl-acceach-report/:type/:date')
-        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.returnGlreport);
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.returnGlreport);
     app.route('/api/gl-acceach-report/:type/:date/:enddate')
-        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.returnGlreport);
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.returnGlreport);
 
 
 

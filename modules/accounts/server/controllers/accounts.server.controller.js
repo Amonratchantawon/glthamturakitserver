@@ -639,6 +639,74 @@ exports.getAccountchart = function (req, res, next) {
     });
 };
 
+exports.getBringAccount = function(req, res, next){
+    Account.find({
+        docdate: {
+            $lt: req.firstDay
+        }
+    }).populate('debits.account').populate('credits.account').populate('user', 'displayName').sort('docno').exec(function (err, account) {
+        if (err) {
+            return next(err);
+        } else if (!account) {
+            return res.status(404).send({
+                message: 'No Account with that identifier has been found'
+            });
+        }
+        req.bringaccount = account;
+        next();
+        // แยกประเภททั้งหมด
+    });
+};
+
+exports.acceachCooking = function(){
+    var acceach = [];
+    for (var i = 0; i < req.accountcharts.length; i++) {
+        var accountchartI = req.accountcharts[i];
+        var acceachGrop = {
+            date: new Date(),
+            company: req.company ? req.company.name : "",
+            startdate: req.firstDay,
+            enddate: req.lastDay,
+            title: "บัญชีแยกประเภท" + accountchartI.name,
+            accountno: accountchartI.accountno,
+            account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
+            current: {
+                debit: 0,
+                credit: 0
+            },
+            bringforward: {
+                docdate: "",
+                docno: "",
+                accountname: "ยอดยกมา",
+                accountno: "",
+                document: "",
+                timestamp: "",
+                debit: 0,
+                credit: 0,
+                description: "",
+                transaction: []
+            },
+            carryforward: {
+                docdate: "",
+                docno: "",
+                accountname: "ยอดยกไป",
+                accountno: "",
+                document: "",
+                timestamp: "",
+                debit: 0,
+                credit: 0,
+                description: ""
+            },
+            transaction: []
+        };
+        acceach.push(acceachGrop);  
+    }
+    req.acceach = acceach;
+    next();
+};
+
+
+
 exports.getBringForwardForAcceach = function (req, res, next) {
     Account.find({
         docdate: {
