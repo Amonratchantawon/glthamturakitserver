@@ -721,51 +721,6 @@ exports.acceachCooking = function (req, res, next) {
 };
 
 
-mergeTrans = function (account) {
-    var trans = [];
-    for (var i = 0; i < account.length; i++) {
-        var element = account[i];
-        var debitLength = element.debits.length;
-        for (var d = 0; d < debitLength; d++) {
-            var debit = element.debits[d];
-            var transaction = {
-                docdate: element.docdate,
-                docno: element.docno,
-                remark: element.remark,
-                accountname: debit.account ? debit.account.name : 'undefined',
-                accountno: debit.account ? debit.account.accountno : 'undefined',
-                description: debit.description,
-                document: "",
-                timestamp: "",
-                debit: debit.amount,
-                credit: 0
-            };
-            trans.push(transaction);
-        }
-
-        var creditsLength = element.credits.length;
-        for (var c = 0; c < creditsLength; c++) {
-            var credit = element.credits[c];
-            var transaction = {
-                docdate: element.docdate,
-                docno: element.docno,
-                remark: element.remark,
-                accountname: credit.account ? credit.account.name : 'undefined',
-                accountno: credit.account ? credit.account.accountno : 'undefined',
-                description: credit.description,
-                document: "",
-                timestamp: "",
-                debit: 0,
-                credit: credit.amount
-            };
-            trans.push(transaction);
-        }
-    }
-    return trans;
-}
-
-
-
 exports.getBringForwardForAcceach = function (req, res, next) {
     Account.find({
         docdate: {
@@ -1421,3 +1376,47 @@ function convertDateThai(d) {
     var date = new Date(d);
     return date.getDate() + ' ' + months[date.getMonth()] + ' ' + (date.getFullYear() + 543);
 }
+
+function mergeTrans(account) {
+    var trans = [];
+    for (var i = 0; i < account.length; i++) {
+        var element = account[i];
+        var debitLength = element.debits.length;
+        for (var d = 0; d < debitLength; d++) {
+            var debit = element.debits[d];
+            var debits = {
+                docdate: element.docdate,
+                docno: element.docno,
+                remark: element.remark,
+                accountname: debit.account ? debit.account.name : 'undefined',
+                accountno: debit.account ? debit.account.accountno : 'undefined',
+                description: debit.description,
+                document: "",
+                timestamp: "",
+                debit: debit.amount,
+                credit: 0
+            };
+            trans.push(debits);
+        }
+
+        var creditsLength = element.credits.length;
+        for (var c = 0; c < creditsLength; c++) {
+            var credit = element.credits[c];
+            var credits = {
+                docdate: element.docdate,
+                docno: element.docno,
+                remark: element.remark,
+                accountname: credit.account ? credit.account.name : 'undefined',
+                accountno: credit.account ? credit.account.accountno : 'undefined',
+                description: credit.description,
+                document: "",
+                timestamp: "",
+                debit: 0,
+                credit: credit.amount
+            };
+            trans.push(credits);
+        }
+    }
+    return trans;
+}
+
