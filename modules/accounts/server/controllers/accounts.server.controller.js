@@ -667,24 +667,32 @@ exports.acceachCooking = function (req, res, next) {
         var accountchartI = req.accountcharts[i];
         
         
+        
+        //ยอดยกมา
         var bdr = 0;
         var bcr = 0;
-        var dr = 0;
-        var cr = 0;
-        
         var lstBringOfAccount = _.filter(bring, { accountno: accountchartI.accountno });
         for (var idx = 0; idx < lstBringOfAccount.length; idx++) {
             bdr += lstBringOfAccount[idx].debit;
             bcr += lstBringOfAccount[idx].credit;
         }
+        var bfSumDR = bdr > bcr ? bdr - bcr : 0;
+        var bfSumCR = bcr > bdr ? bcr - bdr : 0;
 
+        //ยอดในงวด
+        var dr = 0;
+        var cr = 0;
         var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
         for (var idy = 0; idy < lstOfAccount.length; idy++) {
             dr += lstOfAccount[idy].debit;
             cr += lstOfAccount[idy].credit;
         }
+        var inSumDR = dr > cr ? dr - cr : 0;
+        var inSumCR = cr > dr ? cr - dr : 0;
 
-        
+        //ยอดยกไป  (สิ้นงวด)
+        var afSumDR = bfSumDR + inSumDR;
+        var afSumCR = bfSumCR + inSumCR;
        
         var acceachGrop = {
             date: new Date(),
@@ -705,10 +713,10 @@ exports.acceachCooking = function (req, res, next) {
                 accountno: "",
                 document: "",
                 timestamp: "",
-                debit: bdr > bcr ? bdr - bcr : 0,
-                credit: bcr > bdr ? bcr - bdr : 0,
+                debit: bfSumDR,
+                credit: bfSumCR,
                 description: "",
-                transaction: []
+                transaction: lstBringOfAccount
             },
             carryforward: {
                 docdate: "",
@@ -717,8 +725,8 @@ exports.acceachCooking = function (req, res, next) {
                 accountno: "",
                 document: "",
                 timestamp: "",
-                debit: 0,
-                credit: 0,
+                debit: afSumDR > afSumCR ? afSumDR - afSumCR : 0,
+                credit: afSumCR > afSumDR ? afSumCR - afSumDR : 0,
                 description: ""
             },
             transaction: lstOfAccount
