@@ -665,14 +665,26 @@ exports.acceachCooking = function (req, res, next) {
 
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
-        var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
+        
+        
+        var bdr = 0;
+        var bcr = 0;
         var dr = 0;
         var cr = 0;
         
-        for (var idx = 0; idx < lstOfAccount.length; idx++) {
-            dr += lstOfAccount[idx].debit;
-            cr += lstOfAccount[idx].credit;
+        var lstBringOfAccount = _.filter(bring, { accountno: accountchartI.accountno });
+        for (var idx = 0; idx < lstBringOfAccount.length; idx++) {
+            bdr += lstBringOfAccount[idx].debit;
+            bcr += lstBringOfAccount[idx].credit;
         }
+
+        var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
+        for (var idy = 0; idx < lstOfAccount.length; idy++) {
+            dr += lstOfAccount[idy].debit;
+            cr += lstOfAccount[idy].credit;
+        }
+
+        
        
         var acceachGrop = {
             date: new Date(),
@@ -693,8 +705,8 @@ exports.acceachCooking = function (req, res, next) {
                 accountno: "",
                 document: "",
                 timestamp: "",
-                debit: 0,
-                credit: 0,
+                debit: bdr > bcr ? bdr - bcr : 0,
+                credit: bcr > bdr ? bcr - bdr : 0,
                 description: "",
                 transaction: []
             },
