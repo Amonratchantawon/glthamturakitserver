@@ -724,91 +724,94 @@ exports.getBringForwardForAcceach = function (req, res, next) {
 
             var transactionAccEach = [];
 
-            for (var ii = 0; ii < dailyLength; ii++) {
-                var dailyI = daily.transaction[ii];
-                var lstOfAccount = _.filter(dailyI.list, { accountno: accountchartI.accountno });
-                for (var idx = 0; idx < lstOfAccount.length; idx++) {
-                    var macthAccount = lstOfAccount[idx];
-                    //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
-                    if (macthAccount.debit > 0) {
-                        //var dailyListCredit = _.filter(dailyI, {accountno: accountchartI.accountno});
-                        transactionAccEach.push({
-                            docdate: dailyI.docdate,
-                            docno: dailyI.docno,
-                            accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
-                            accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
-                            document: "",
-                            timestamp: "",
-                            debit: macthAccount.debit,
-                            credit: 0,
-                            description: macthAccount.description//dailyListCredit[0].description
-                        });
-                    }
-                    //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
-                    else if (macthAccount.credit > 0) {
-                        transactionAccEach.push({
-                            docdate: dailyI.docdate,
-                            docno: dailyI.docno,
-                            accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
-                            accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
-                            document: "",
-                            timestamp: "",
-                            debit: 0,
-                            credit: macthAccount.credit,
-                            description: macthAccount.description//dailyListCredit[0].description
-                        });
-                    }
-                }
-            }
+            acceach.push(acceachGrop);
 
-            var tranLength = transactionAccEach.length;
-            var currentDebit = 0;
-            var currentCredit = 0;
-            if (tranLength > 0) {
+            // for (var ii = 0; ii < dailyLength; ii++) {
+            //     var dailyI = daily.transaction[ii];
+            //     var lstOfAccount = _.filter(dailyI.list, { accountno: accountchartI.accountno });
+            //     for (var idx = 0; idx < lstOfAccount.length; idx++) {
+            //         var macthAccount = lstOfAccount[idx];
+            //         //ถ้าลงรายการฝั่งเดบิต ให้อ่านรายการอ้างอิงฝั่งเครดิตมาแสดง
+            //         if (macthAccount.debit > 0) {
+            //             //var dailyListCredit = _.filter(dailyI, {accountno: accountchartI.accountno});
+            //             transactionAccEach.push({
+            //                 docdate: dailyI.docdate,
+            //                 docno: dailyI.docno,
+            //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
+            //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
+            //                 document: "",
+            //                 timestamp: "",
+            //                 debit: macthAccount.debit,
+            //                 credit: 0,
+            //                 description: macthAccount.description//dailyListCredit[0].description
+            //             });
+            //         }
+            //         //ถ้าลงรายการฝั่งเครดิต ให้อ่านรายการอ้างอิงฝั่งเดบิตมาแสดง
+            //         else if (macthAccount.credit > 0) {
+            //             transactionAccEach.push({
+            //                 docdate: dailyI.docdate,
+            //                 docno: dailyI.docno,
+            //                 accountname: macthAccount.accountname,//dailyListCredit[0].accountname,
+            //                 accountno: macthAccount.accountno,//dailyListCredit[0].accountno,
+            //                 document: "",
+            //                 timestamp: "",
+            //                 debit: 0,
+            //                 credit: macthAccount.credit,
+            //                 description: macthAccount.description//dailyListCredit[0].description
+            //             });
+            //         }
+            //     }
+            // }
 
-                for (var index = 0; index < tranLength; index++) {
-                    var tran = transactionAccEach[index];
-                    currentDebit += tran.debit;
-                    currentCredit += tran.credit;
-                }
-                var carryforwardDebit = 0;
-                var carryforwardCredit = 0;
-                var sumCurent = currentDebit - currentCredit;
-                acceachGrop.current.debit = currentDebit > currentCredit ? currentDebit : currentCredit;
-                acceachGrop.current.credit = acceachGrop.current.debit;
-                if (sumCurent >= 0) {
-                    carryforwardDebit = Math.abs(sumCurent);
+            // var tranLength = transactionAccEach.length;
+            // var currentDebit = 0;
+            // var currentCredit = 0;
+            // if (tranLength > 0) {
 
-                } else {
-                    carryforwardCredit = Math.abs(sumCurent);
-                }
+            //     for (var index = 0; index < tranLength; index++) {
+            //         var tran = transactionAccEach[index];
+            //         currentDebit += tran.debit;
+            //         currentCredit += tran.credit;
+            //     }
+            //     var carryforwardDebit = 0;
+            //     var carryforwardCredit = 0;
+            //     var sumCurent = currentDebit - currentCredit;
+            //     acceachGrop.current.debit = currentDebit > currentCredit ? currentDebit : currentCredit;
+            //     acceachGrop.current.credit = acceachGrop.current.debit;
+            //     if (sumCurent >= 0) {
+            //         carryforwardDebit = Math.abs(sumCurent);
 
-                acceachGrop.carryforward = {
-                    docdate: "",
-                    docno: "",
-                    accountname: "ยอดยกไป",
-                    accountno: "",
-                    document: "",
-                    timestamp: "",
-                    debit: carryforwardDebit,
-                    credit: carryforwardCredit,
-                    description: ""
-                };
+            //     } else {
+            //         carryforwardCredit = Math.abs(sumCurent);
+            //     }
 
-                transactionAccEach = _(transactionAccEach)
-                    .groupBy('docdate')
-                    .reduce(function (array, children, key) {
-                        array.push({
-                            docdate: key,
-                            list: children
-                        });
+            //     acceachGrop.carryforward = {
+            //         docdate: "",
+            //         docno: "",
+            //         accountname: "ยอดยกไป",
+            //         accountno: "",
+            //         document: "",
+            //         timestamp: "",
+            //         debit: carryforwardDebit,
+            //         credit: carryforwardCredit,
+            //         description: ""
+            //     };
 
-                        return array;
-                    }, []);
+            //     transactionAccEach = _(transactionAccEach)
+            //         .groupBy('docdate')
+            //         .reduce(function (array, children, key) {
+            //             array.push({
+            //                 docdate: key,
+            //                 list: children
+            //             });
 
-                acceachGrop.transaction = transactionAccEach;
-                acceach.push(acceachGrop);
-            }
+            //             return array;
+            //         }, []);
+
+            //     acceachGrop.transaction = transactionAccEach;
+            //     acceach.push(acceachGrop);
+            // }
+
         }
         req.bringforward = acceach;
         next();
