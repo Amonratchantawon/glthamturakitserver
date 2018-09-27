@@ -683,12 +683,27 @@ exports.acceachCooking = function (req, res, next) {
         var dr = 0;
         var cr = 0;
         var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
+        var transaction = [];
         for (var idy = 0; idy < lstOfAccount.length; idy++) {
             dr += lstOfAccount[idy].debit;
             cr += lstOfAccount[idy].credit;
+            transaction.push(lstOfAccount[idy]);
         }
         var inSumDR = dr > cr ? dr - cr : 0;
         var inSumCR = cr > dr ? cr - dr : 0;
+
+        transaction = _(transaction)
+            .groupBy('docdate')
+            .reduce(function (array, children, key) {
+                array.push({
+                    docdate: key,
+                    list: children
+                });
+
+                return array;
+            }, []);
+
+        
 
         //ยอดยกไป  (สิ้นงวด)
         var afSumDR = bfSumDR + inSumDR;
@@ -729,7 +744,7 @@ exports.acceachCooking = function (req, res, next) {
                 credit: afSumCR > afSumDR ? afSumCR - afSumDR : 0,
                 description: ""
             },
-            transaction: lstOfAccount
+            transaction: transaction
         };
 
 
@@ -738,8 +753,8 @@ exports.acceachCooking = function (req, res, next) {
 
         acceach.push(acceachGrop);
     }
-    req.current = current;
-    req.bring = bring;
+    // req.current = current;
+    // req.bring = bring;
     req.acceach = acceach;
     next();
 };
