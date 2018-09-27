@@ -665,7 +665,7 @@ exports.acceachCooking = function (req, res, next) {
 
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
-        var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno }).value;
+        var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
         var dr = 0;
         var cr = 0;
         
