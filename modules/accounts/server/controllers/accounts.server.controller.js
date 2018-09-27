@@ -692,6 +692,8 @@ exports.acceachCooking = function (req, res, next) {
         var inSumDR = dr > cr ? dr - cr : 0;
         var inSumCR = cr > dr ? cr - dr : 0;
 
+        transaction = _(transaction).toPairs().sortBy('docdate').fromPairs().value();
+        
         transaction = _(transaction)
             .groupBy('docdate')
             .reduce(function (array, children, key) {
