@@ -42,15 +42,15 @@ module.exports = function (app) {
 
 
     //สมุดรายวันทั่วไป
-    app.route('/api/gl-daily-report/:type/:date').all(accountsPolicy.isAllowed)
+    app.route('/api/gl-daily-report/:type/:date')
         .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.returnGlreport);
-    app.route('/api/gl-daily-report/:type/:date/:enddate').all(accountsPolicy.isAllowed)
+    app.route('/api/gl-daily-report/:type/:date/:enddate')
         .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.returnGlreport);
 
     //สมุดบัญชีแยกประเภท
-    app.route('/api/gl-acceach-report/:type/:date').all(accountsPolicy.isAllowed)
+    app.route('/api/gl-acceach-report/:type/:date')
         .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.returnGlreport);
-    app.route('/api/gl-acceach-report/:type/:date/:enddate').all(accountsPolicy.isAllowed)
+    app.route('/api/gl-acceach-report/:type/:date/:enddate')
         .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.returnGlreport);
 
 
