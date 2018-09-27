@@ -663,27 +663,27 @@ exports.acceachCooking = function (req, res, next) {
     var current = mergeTrans(req.account);
     var bring = mergeTrans(req.bringaccount);
 
-    var curSumByAcc =
-        _(current)
-            .groupBy('accountno')
-            .map(function (objs, key) {
-                return {
-                    'accountno': key,
-                    'debit': _.sumBy(objs, 'debit'),
-                    'credit': _.sumBy(objs, 'credit')
-                };
-            }).value();
+    // var curSumByAcc =
+    //     _(current)
+    //         .groupBy('accountno')
+    //         .map(function (objs, key) {
+    //             return {
+    //                 'accountno': key,
+    //                 'debit': _.sumBy(objs, 'debit'),
+    //                 'credit': _.sumBy(objs, 'credit')
+    //             };
+    //         }).value();
 
-    var befSumByAcc =
-        _(bring)
-            .groupBy('accountno')
-            .map(function (objs, key) {
-                return {
-                    'accountno': key,
-                    'debit': _.sumBy(objs, 'debit'),
-                    'credit': _.sumBy(objs, 'credit')
-                };
-            }).value();
+    // var befSumByAcc =
+    //     _(bring)
+    //         .groupBy('accountno')
+    //         .map(function (objs, key) {
+    //             return {
+    //                 'accountno': key,
+    //                 'debit': _.sumBy(objs, 'debit'),
+    //                 'credit': _.sumBy(objs, 'credit')
+    //             };
+    //         }).value();
 
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
