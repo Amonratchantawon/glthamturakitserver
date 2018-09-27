@@ -722,6 +722,18 @@ exports.getBringForwardForAcceach = function (req, res, next) {
                 transaction: []
             };
 
+            acceachGrop.carryforward = {
+                docdate: "",
+                docno: "",
+                accountname: "ยอดยกไป",
+                accountno: "",
+                document: "",
+                timestamp: "",
+                debit: carryforwardDebit,
+                credit: carryforwardCredit,
+                description: ""
+            };
+
             var transactionAccEach = [];
 
             acceach.push(acceachGrop);
@@ -1083,7 +1095,7 @@ exports.generateBalance = function (req, res, next) {
     });
     balance.debt.transaction.push(sumGain);
     balance.debt.transaction[1].summary += req.gain.transaction[7].summary;
-    
+
     balance.debt.transaction[1].sumtrans = {
         accountno: "- รวมส่วนของผู้ถือหุ้น -",
         amount: balance.debt.transaction[1].summary
@@ -1277,12 +1289,12 @@ function generateGlByType(acceach, accountChart, type, name) {
         }).indexOf(acceachI09.accountno);
         if (indexOfGG !== -1) {
             /**jigkoh3 */
-            if(type === '01' || type === '03' || type === '04' || type === '11' || type === '12' || type === '13'){
+            if (type === '01' || type === '03' || type === '04' || type === '11' || type === '12' || type === '13') {
                 GG.list[indexOfGG].amount = acceachI09.carryforward.debit > 0 ? acceachI09.carryforward.debit : (acceachI09.carryforward.credit * -1);
-            }else{
+            } else {
                 GG.list[indexOfGG].amount = acceachI09.carryforward.debit > 0 ? (acceachI09.carryforward.debit * -1) : acceachI09.carryforward.credit;
             }
-            
+
         }
     }
     var GGListLength = GG.list.length;
