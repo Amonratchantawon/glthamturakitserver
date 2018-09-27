@@ -39,6 +39,23 @@ module.exports = function (app) {
     app.route('/api/glreport/excel/:type/:date/:enddate')
         //.get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.balancetest, accounts.exportExcel);
         .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.exportExcel);
+
+
+    //สมุดรายวันทั่วไป
+    app.route('/api/gl-daily-report/:type/:date').all(accountsPolicy.isAllowed)
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.returnGlreport);
+    app.route('/api/gl-daily-report/:type/:date/:enddate').all(accountsPolicy.isAllowed)
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.returnGlreport);
+
+    //สมุดบัญชีแยกประเภท
+    app.route('/api/gl-acceach-report/:type/:date').all(accountsPolicy.isAllowed)
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.returnGlreport);
+    app.route('/api/gl-acceach-report/:type/:date/:enddate').all(accountsPolicy.isAllowed)
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.returnGlreport);
+
+
+
+
     // accounts.getGlByCondition
     // Finish by binding the Account middleware
     app.param('accountId', accounts.accountByID);
