@@ -750,8 +750,10 @@ exports.acceachCooking = function (req, res, next) {
 
 
 
-
-        acceach.push(acceachGrop);
+        if (afSumDR > 0 || afSumCR > 0) {
+            acceach.push(acceachGrop);
+        }
+        
     }
     // req.current = current;
     // req.bring = bring;
