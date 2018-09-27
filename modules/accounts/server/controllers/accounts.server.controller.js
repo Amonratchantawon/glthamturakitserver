@@ -675,8 +675,8 @@ exports.acceachCooking = function (req, res, next) {
             accountno: accountchartI.accountno,
             account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
             current: {
-                debit: 0,
-                credit: 0
+                debit: _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount)),
+                credit: _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount))
             },
             bringforward: {
                 docdate: "",
@@ -1234,8 +1234,8 @@ exports.returnGlreport = function (req, res) {
         daily: req.daily,
         acceach: req.acceach,
         gain: req.gain,
-        balance: req.bring,
-        balancetests: req.current
+        balance: req.balance,
+        balancetests: req.balancetests
     };
     res.jsonp(glreport);
 };
