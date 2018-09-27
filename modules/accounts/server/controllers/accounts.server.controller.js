@@ -665,9 +665,9 @@ exports.acceachCooking = function (req, res, next) {
 
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
-        
-        
-        
+
+
+
         //ยอดยกมา
         var bdr = 0;
         var bcr = 0;
@@ -692,9 +692,10 @@ exports.acceachCooking = function (req, res, next) {
         var inSumDR = dr > cr ? dr - cr : 0;
         var inSumCR = cr > dr ? cr - dr : 0;
 
-        transaction = _(transaction).toPairs().sortBy('docdate').fromPairs().value();
-        
+        //transaction = _(transaction).toPairs().sortBy('docdate').fromPairs().value();
+
         transaction = _(transaction)
+            .sortBy('docdate')
             .groupBy('docdate')
             .reduce(function (array, children, key) {
                 array.push({
@@ -705,12 +706,12 @@ exports.acceachCooking = function (req, res, next) {
                 return array;
             }, []);
 
-        
+
 
         //ยอดยกไป  (สิ้นงวด)
         var afSumDR = bfSumDR + inSumDR;
         var afSumCR = bfSumCR + inSumCR;
-       
+
         var acceachGrop = {
             date: new Date(),
             company: req.company ? req.company.name : "",
@@ -755,7 +756,7 @@ exports.acceachCooking = function (req, res, next) {
         if (afSumDR > 0 || afSumCR > 0) {
             acceach.push(acceachGrop);
         }
-        
+
     }
     // req.current = current;
     // req.bring = bring;
