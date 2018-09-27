@@ -666,6 +666,12 @@ exports.acceachCooking = function (req, res, next) {
     for (var i = 0; i < req.accountcharts.length; i++) {
         var accountchartI = req.accountcharts[i];
         var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
+        var dr = 0;
+        var cr = 0;
+        if(lstOfAccount && lstOfAccount.length > 0){
+            dr = _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount));
+            cr = _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount));
+        }
         // debit: _.sumBy(['debit'], _.partial(_.sumBy, lstOfAccount)),
         //         credit: _.sumBy(['credit'], _.partial(_.sumBy, lstOfAccount))
         var acceachGrop = {
@@ -677,8 +683,8 @@ exports.acceachCooking = function (req, res, next) {
             accountno: accountchartI.accountno,
             account: accountchartI, //สำหรับเอาไปทำงบกำไรขาดทุน
             current: {
-                debit: 0,
-                credit: 0
+                debit: dr,
+                credit: cr
             },
             bringforward: {
                 docdate: "",
