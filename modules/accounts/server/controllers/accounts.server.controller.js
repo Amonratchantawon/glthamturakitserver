@@ -679,7 +679,7 @@ exports.acceachCooking = function (req, res, next) {
         }
 
         var lstOfAccount = _.filter(current, { accountno: accountchartI.accountno });
-        for (var idy = 0; idx < lstOfAccount.length; idy++) {
+        for (var idy = 0; idy < lstOfAccount.length; idy++) {
             dr += lstOfAccount[idy].debit;
             cr += lstOfAccount[idy].credit;
         }
