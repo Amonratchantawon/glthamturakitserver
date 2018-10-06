@@ -30,14 +30,14 @@ module.exports = function (app) {
 
     app.route('/api/glreport/:type/:date').all(accountsPolicy.isAllowed)
         //.get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.balancetest, accounts.returnGlreport);
-        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.returnGlreport);
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.balancetest, accounts.returnGlreport);
        
     app.route('/api/glreport/:type/:date/:enddate').all(accountsPolicy.isAllowed)
         //.get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.balancetest, accounts.returnGlreport);
-        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.returnGlreport);
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.balancetest, accounts.returnGlreport);
     app.route('/api/glreport/excel/:type/:date/:enddate')
         //.get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringForwardForAcceach, accounts.generateAcceach, accounts.generateGain, accounts.generateBalance, accounts.balancetest, accounts.exportExcel);
-        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.exportExcel);
+        .get(accounts.setReportCondition, accounts.getCompany, accounts.getAccounts, accounts.generateGlDaily, accounts.getAccountchart, accounts.getBringAccount, accounts.acceachCooking, accounts.balancetest, accounts.exportExcel);
         
 
 
